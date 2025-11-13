@@ -1,6 +1,23 @@
 const API_URL = 'https://api.openai.com/v1'
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
+interface EmotionalProfile {
+  primaryEmotion: string
+  secondaryEmotions: string[]
+  intensity: 'baixa' | 'média' | 'alta'
+  underlyingNeeds: string[]
+  keyConcerns: string[]
+}
+
+interface PracticalAdvice {
+  advice: string[]
+}
+
+export interface MotherReplyPayload {
+  reply: string
+  mood_label: string
+}
+
 /**
  * Transcribes an audio file using the OpenAI Whisper API.
  * @param audioFile The audio file to transcribe.
@@ -37,18 +54,10 @@ export const transcribeAudio = async (audioFile: File): Promise<string> => {
   }
 }
 
-/**
- * Analyzes the mood from a text using the OpenAI Chat Completions API.
- * @param transcript The user's text entry.
- * @returns A mood label string.
- */
-export const analyzeMoodFromText = async (
+const performEmotionalAnalysis = async (
   transcript: string,
-): Promise<string> => {
-  if (!API_KEY) return 'neutra'
-
-  const prompt = `Analyze the following text and classify the user's primary mood into one of these categories: triste, cansada, ansiosa, irritada, feliz, neutra. Respond with only the category name in lowercase. Text: "${transcript}"`
-
+): Promise<EmotionalProfile | null> => {
+  const prompt = `Você é uma IA especialista em psicologia. Analise o texto a seguir e identifique o perfil emocional. Responda APENAS com um objeto JSON com a seguinte estrutura: { "primaryEmotion": "string", "secondaryEmotions": ["string"], "intensity": "baixa" | "média" | "alta", "underlyingNeeds": ["string"], "keyConcerns": ["string"] }. Emoções válidas: triste, cansada, ansiosa, irritada, feliz, neutra. Texto: "${transcript}"`
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {
       method: 'POST',
@@ -57,44 +66,70 @@ export const analyzeMoodFromText = async (
         Authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0,
-        max_tokens: 10,
+        temperature: 0.2,
+        response_format: { type: 'json_object' },
       }),
     })
     const data = await response.json()
-    const mood = data.choices[0]?.message?.content.trim().toLowerCase()
-    const validMoods = [
-      'triste',
-      'cansada',
-      'ansiosa',
-      'irritada',
-      'feliz',
-      'neutra',
-    ]
-    return validMoods.includes(mood) ? mood : 'neutra'
+    return JSON.parse(data.choices[0]?.message?.content)
   } catch (error) {
-    console.error('Error analyzing mood:', error)
-    return 'neutra'
+    console.error('Error in emotional analysis:', error)
+    return null
   }
 }
 
-/**
- * Generates a caring, practical response using the OpenAI Chat Completions API.
- * @param transcript The user's text entry.
- * @param mood The detected mood.
- * @returns A compassionate response string.
- */
+const generatePracticalAdvice = async (
+  profile: EmotionalProfile,
+): Promise<PracticalAdvice | null> => {
+  const prompt = `Você é uma IA coach de bem-estar. Baseado no perfil emocional a seguir, gere 2-3 conselhos práticos, simples e acionáveis. Responda APENAS com um objeto JSON com a estrutura: { "advice": ["string", "string"] }. Perfil: ${JSON.stringify(
+    profile,
+  )}`
+  try {
+    const response = await fetch(`${API_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.6,
+        response_format: { type: 'json_object' },
+      }),
+    })
+    const data = await response.json()
+    return JSON.parse(data.choices[0]?.message?.content)
+  } catch (error) {
+    console.error('Error generating advice:', error)
+    return null
+  }
+}
+
 export const generateMotherReply = async (
   transcript: string,
-  mood: string,
-): Promise<string> => {
-  if (!API_KEY)
-    return 'Oi, filha. Obrigada por compartilhar isso comigo. Estou sempre aqui para te ouvir.'
+): Promise<MotherReplyPayload> => {
+  const fallbackReply = {
+    reply:
+      'Minha filha, tive um probleminha para processar sua mensagem, mas saiba que estou aqui com você em pensamento. Tente me contar de novo daqui a pouquinho.',
+    mood_label: 'neutra',
+  }
+  if (!API_KEY) return fallbackReply
 
-  const systemPrompt = `You are 'Mãe Amiga', an AI coach for overwhelmed married women. Your tone is that of an experienced, loving mother and a supportive best friend. You provide caring, practical life advice. You MUST NOT provide medical or diagnostic advice or act as a therapist. Your goal is to make the user feel heard, understood, and supported. Your language is Brazilian Portuguese.`
-  const userPrompt = `My mood is: ${mood}. My thoughts are: "${transcript}". Please give me a compassionate and encouraging response.`
+  const emotionalProfile = await performEmotionalAnalysis(transcript)
+  if (!emotionalProfile) return fallbackReply
+
+  const practicalAdvice = await generatePracticalAdvice(emotionalProfile)
+  if (!practicalAdvice) return fallbackReply
+
+  const systemPrompt = `Você é 'Mãe Amiga', uma IA coach para mulheres casadas sobrecarregadas. Seu tom é de uma mãe experiente, amorosa e melhor amiga. Você oferece conselhos de vida práticos e carinhosos. Você NÃO PODE dar conselhos médicos ou diagnósticos. Seu objetivo é fazer a usuária se sentir ouvida, compreendida e apoiada. Sua língua é o português do Brasil.`
+  const userPrompt = `O desabafo da minha filha foi: "${transcript}". Minha análise interna (não mostre a ela) indica este perfil emocional: ${JSON.stringify(
+    emotionalProfile,
+  )}, e estas são algumas sugestões práticas: ${JSON.stringify(
+    practicalAdvice.advice,
+  )}. Agora, escreva uma resposta única e coesa para ela. Comece validando os sentimentos dela. Depois, com muito carinho, integre as sugestões práticas de forma natural na sua fala. Termine com uma mensagem de apoio e amor incondicional. Seja calorosa e encorajadora.`
 
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {
@@ -110,14 +145,17 @@ export const generateMotherReply = async (
           { role: 'user', content: userPrompt },
         ],
         temperature: 0.7,
-        max_tokens: 250,
+        max_tokens: 300,
       }),
     })
     const data = await response.json()
-    return data.choices[0]?.message?.content
+    return {
+      reply: data.choices[0]?.message?.content,
+      mood_label: emotionalProfile.primaryEmotion || 'neutra',
+    }
   } catch (error) {
-    console.error('Error generating reply:', error)
-    return 'Minha filha, tive um probleminha para processar sua mensagem, mas saiba que estou aqui com você em pensamento. Tente me contar de novo daqui a pouquinho.'
+    console.error('Error generating final reply:', error)
+    return fallbackReply
   }
 }
 

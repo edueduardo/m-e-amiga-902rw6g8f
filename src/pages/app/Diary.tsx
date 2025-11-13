@@ -8,27 +8,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Mic, Send, Loader2, Square, Upload } from 'lucide-react'
 import { voiceEntries } from '@/lib/data'
 import { VoiceEntry } from '@/types'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import {
-  generateMotherReply,
-  analyzeMoodFromText,
-  transcribeAudio,
-} from '@/lib/motherAi'
+import { generateMotherReply, transcribeAudio } from '@/lib/motherAi'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { AudioPlayer } from '@/components/AudioPlayer'
-import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
 const moodColors: { [key: string]: string } = {
@@ -43,7 +31,6 @@ const moodColors: { [key: string]: string } = {
 const DiaryPage = () => {
   const [entries, setEntries] = useState<VoiceEntry[]>(voiceEntries)
   const [newEntry, setNewEntry] = useState('')
-  const [mood, setMood] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState('')
   const [reply, setReply] = useState<string | null>(null)
@@ -118,18 +105,15 @@ const DiaryPage = () => {
       return
     }
 
-    setStatus('Analisando seus sentimentos...')
-    const detectedMood = mood || (await analyzeMoodFromText(transcript))
-    setMood(detectedMood)
-
     setStatus('Preparando uma resposta com carinho...')
-    const motherReply = await generateMotherReply(transcript, detectedMood)
+    const { reply: motherReply, mood_label } =
+      await generateMotherReply(transcript)
 
     const entry: VoiceEntry = {
       id: new Date().toISOString(),
       created_at: new Date().toISOString(),
       transcript,
-      mood_label: detectedMood as VoiceEntry['mood_label'],
+      mood_label: mood_label as VoiceEntry['mood_label'],
       mother_reply: motherReply,
       audio_url: audioURL || undefined,
     }
@@ -137,7 +121,6 @@ const DiaryPage = () => {
     setReply(motherReply)
     setEntries([entry, ...entries])
     setNewEntry('')
-    setMood('')
     setAudioFile(null)
     setAudioURL(null)
     setStatus('')
@@ -151,8 +134,7 @@ const DiaryPage = () => {
           <CardHeader>
             <CardTitle>Novo Desabafo</CardTitle>
             <CardDescription>
-              Grave um áudio, escreva, ou faça os dois. Estou aqui para te
-              ouvir.
+              Grave um áudio ou escreva. Estou aqui para te ouvir.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -179,7 +161,7 @@ const DiaryPage = () => {
                   ) : (
                     <Mic className="mr-2 h-4 w-4" />
                   )}
-                  {isRecording ? 'Parar Gravação' : 'Gravar Áudio'}
+                  {isRecording ? 'Parar' : 'Gravar'}
                 </Button>
                 <Input
                   type="file"
@@ -195,25 +177,8 @@ const DiaryPage = () => {
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isLoading}
                 >
-                  <Upload className="mr-2 h-4 w-4" /> Carregar Áudio
+                  <Upload className="mr-2 h-4 w-4" /> Carregar
                 </Button>
-                <Select
-                  value={mood}
-                  onValueChange={setMood}
-                  disabled={isLoading}
-                >
-                  <SelectTrigger className="flex-1 min-w-[180px]">
-                    <SelectValue placeholder="Como você se sente?" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="triste">Triste</SelectItem>
-                    <SelectItem value="cansada">Cansada</SelectItem>
-                    <SelectItem value="ansiosa">Ansiosa</SelectItem>
-                    <SelectItem value="irritada">Irritada</SelectItem>
-                    <SelectItem value="feliz">Feliz</SelectItem>
-                    <SelectItem value="neutra">Neutra</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
               <Button
                 type="submit"

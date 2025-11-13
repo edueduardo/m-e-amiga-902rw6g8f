@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
@@ -21,41 +22,58 @@ import SummaryPage from './pages/app/Summary'
 import SettingsPage from './pages/app/Settings'
 import NotFound from './pages/NotFound'
 
-const App = () => (
-  <BrowserRouter>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
+const App = () => {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration)
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError)
+          })
+      })
+    }
+  }, [])
 
-            <Route
-              path="/app"
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<DashboardPage />} />
-              <Route path="diary" element={<DiaryPage />} />
-              <Route path="care" element={<CarePage />} />
-              <Route path="courses" element={<CoursesPage />} />
-              <Route path="courses/:slug" element={<CourseDetailPage />} />
-              <Route path="summary" element={<SummaryPage />} />
-              <Route path="settings" element={<SettingsPage />} />
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/pricing" element={<PricingPage />} />
+
+              <Route
+                path="/app"
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<DashboardPage />} />
+                <Route path="diary" element={<DiaryPage />} />
+                <Route path="care" element={<CarePage />} />
+                <Route path="courses" element={<CoursesPage />} />
+                <Route path="courses/:slug" element={<CourseDetailPage />} />
+                <Route path="summary" element={<SummaryPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </TooltipProvider>
-    </AuthProvider>
-  </BrowserRouter>
-)
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </TooltipProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  )
+}
 
 export default App

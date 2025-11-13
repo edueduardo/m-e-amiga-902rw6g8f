@@ -34,6 +34,7 @@ export interface VoiceEntry {
   transcript: string
   mood_label: 'triste' | 'cansada' | 'ansiosa' | 'irritada' | 'feliz' | 'neutra'
   mother_reply: string
+  audio_url?: string
 }
 
 export interface WeeklySummary {

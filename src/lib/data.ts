@@ -131,6 +131,7 @@ export const voiceEntries: VoiceEntry[] = [
     mood_label: 'cansada',
     mother_reply:
       'Minha querida, imagino o quanto você deve estar exausta. Você se doa tanto para todos. Lembre-se que para cuidar dos outros, você precisa primeiro cuidar de si mesma. Será que hoje você não consegue delegar uma pequena tarefa ou tirar 15 minutinhos só para você, sem culpa? Você merece esse descanso.',
+    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
   },
   {
     id: '2',

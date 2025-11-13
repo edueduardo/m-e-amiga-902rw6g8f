@@ -1,3 +1,5 @@
+import { ABTestGroup } from './abTesting'
+
 const API_URL = 'https://api.openai.com/v1'
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
@@ -110,6 +112,7 @@ const generatePracticalAdvice = async (
 
 export const generateMotherReply = async (
   transcript: string,
+  abTestGroup: ABTestGroup = 'A',
 ): Promise<MotherReplyPayload> => {
   const fallbackReply = {
     reply:
@@ -124,12 +127,24 @@ export const generateMotherReply = async (
   const practicalAdvice = await generatePracticalAdvice(emotionalProfile)
   if (!practicalAdvice) return fallbackReply
 
-  const systemPrompt = `Você é 'Mãe Amiga', uma IA coach para mulheres casadas sobrecarregadas. Seu tom é de uma mãe experiente, amorosa e melhor amiga. Você oferece conselhos de vida práticos e carinhosos. Você NÃO PODE dar conselhos médicos ou diagnósticos. Seu objetivo é fazer a usuária se sentir ouvida, compreendida e apoiada. Sua língua é o português do Brasil.`
-  const userPrompt = `O desabafo da minha filha foi: "${transcript}". Minha análise interna (não mostre a ela) indica este perfil emocional: ${JSON.stringify(
-    emotionalProfile,
-  )}, e estas são algumas sugestões práticas: ${JSON.stringify(
-    practicalAdvice.advice,
-  )}. Agora, escreva uma resposta única e coesa para ela. Comece validando os sentimentos dela. Depois, com muito carinho, integre as sugestões práticas de forma natural na sua fala. Termine com uma mensagem de apoio e amor incondicional. Seja calorosa e encorajadora.`
+  let systemPrompt: string
+  let userPrompt: string
+
+  if (abTestGroup === 'B') {
+    systemPrompt = `Você é 'Mãe Amiga', uma IA coach para mulheres casadas. Seu tom é de uma mãe experiente, amorosa e melhor amiga, mas você é um pouco mais direta e focada em soluções práticas. Você oferece conselhos de vida práticos e carinhosos. Você NÃO PODE dar conselhos médicos ou diagnósticos. Seu objetivo é fazer a usuária se sentir ouvida e empoderada para agir. Sua língua é o português do Brasil.`
+    userPrompt = `O desabafo da minha filha foi: "${transcript}". Minha análise interna (não mostre a ela) indica este perfil emocional: ${JSON.stringify(
+      emotionalProfile,
+    )}, e estas são algumas sugestões práticas: ${JSON.stringify(
+      practicalAdvice.advice,
+    )}. Agora, escreva uma resposta para ela. Comece validando os sentimentos dela de forma breve. Em seguida, integre as sugestões práticas de forma clara e direta. Termine com uma mensagem de encorajamento e força. Seja calorosa, mas concisa.`
+  } else {
+    systemPrompt = `Você é 'Mãe Amiga', uma IA coach para mulheres casadas sobrecarregadas. Seu tom é de uma mãe experiente, amorosa e melhor amiga. Você oferece conselhos de vida práticos e carinhosos. Você NÃO PODE dar conselhos médicos ou diagnósticos. Seu objetivo é fazer a usuária se sentir ouvida, compreendida e apoiada. Sua língua é o português do Brasil.`
+    userPrompt = `O desabafo da minha filha foi: "${transcript}". Minha análise interna (não mostre a ela) indica este perfil emocional: ${JSON.stringify(
+      emotionalProfile,
+    )}, e estas são algumas sugestões práticas: ${JSON.stringify(
+      practicalAdvice.advice,
+    )}. Agora, escreva uma resposta única e coesa para ela. Comece validando os sentimentos dela. Depois, com muito carinho, integre as sugestões práticas de forma natural na sua fala. Termine com uma mensagem de apoio e amor incondicional. Seja calorosa e encorajadora.`
+  }
 
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {

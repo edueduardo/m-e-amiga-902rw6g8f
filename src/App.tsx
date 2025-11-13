@@ -14,7 +14,7 @@ import LoginPage from './pages/Login'
 import SignupPage from './pages/Signup'
 import PricingPage from './pages/Pricing'
 import DashboardPage from './pages/app/Dashboard'
-import DiaryPage from './pages/app/Diary'
+import ConversationsPage from './pages/app/Conversations'
 import CarePage from './pages/app/Care'
 import CoursesPage from './pages/app/Courses'
 import CourseDetailPage from './pages/app/CourseDetail'
@@ -60,7 +60,7 @@ const App = () => {
                 }
               >
                 <Route index element={<DashboardPage />} />
-                <Route path="diary" element={<DiaryPage />} />
+                <Route path="conversations" element={<ConversationsPage />} />
                 <Route path="care" element={<CarePage />} />
                 <Route path="courses" element={<CoursesPage />} />
                 <Route path="courses/:slug" element={<CourseDetailPage />} />

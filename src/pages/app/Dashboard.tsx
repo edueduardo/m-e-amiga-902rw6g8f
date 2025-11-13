@@ -48,7 +48,7 @@ const DashboardPage = () => {
           </CardHeader>
           <CardContent>
             <Button asChild size="lg" disabled={!isSubscribed}>
-              <Link to="/app/diary">
+              <Link to="/app/conversations">
                 <Mic className="mr-2 h-5 w-5" />
                 Gravar meu desabafo
               </Link>

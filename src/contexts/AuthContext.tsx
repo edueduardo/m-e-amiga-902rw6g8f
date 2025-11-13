@@ -1,10 +1,12 @@
 import { createContext, useState, ReactNode, useMemo, useCallback } from 'react'
 import { UserProfile } from '@/types'
+import { getOrAssignABTestGroup, ABTestGroup } from '@/lib/abTesting'
 
 interface AuthContextType {
   user: UserProfile | null
   isAuthenticated: boolean
   isSubscribed: boolean
+  abTestGroup: ABTestGroup | null
   login: (user: UserProfile, isSubscribed: boolean) => void
   logout: () => void
   updateUser: (data: Partial<UserProfile>) => void
@@ -23,15 +25,18 @@ const mockUser: UserProfile = {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null)
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const [abTestGroup, setAbTestGroup] = useState<ABTestGroup | null>(null)
 
   const login = useCallback((userData: UserProfile, subscribed: boolean) => {
     setUser(userData)
     setIsSubscribed(subscribed)
+    setAbTestGroup(getOrAssignABTestGroup())
   }, [])
 
   const logout = useCallback(() => {
     setUser(null)
     setIsSubscribed(false)
+    setAbTestGroup(null)
   }, [])
 
   const updateUser = useCallback((data: Partial<UserProfile>) => {
@@ -56,12 +61,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isAuthenticated: !!user,
       isSubscribed,
+      abTestGroup,
       login,
       logout,
       updateUser,
       subscribe,
     }),
-    [user, isSubscribed, login, logout, updateUser, subscribe],
+    [user, isSubscribed, abTestGroup, login, logout, updateUser, subscribe],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

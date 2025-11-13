@@ -7,12 +7,12 @@ import {
   Cog,
   HeartHandshake,
   Home,
-  NotebookText,
+  MessageSquare,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/app', label: 'Início', icon: Home },
-  { href: '/app/diary', label: 'Diário', icon: NotebookText },
+  { href: '/app/conversations', label: 'Conversas', icon: MessageSquare },
   { href: '/app/care', label: 'Cuidar de mim', icon: HeartHandshake },
   { href: '/app/courses', label: 'Cursos', icon: BookHeart },
   { href: '/app/summary', label: 'Resumo', icon: Calendar },
@@ -35,7 +35,12 @@ export const AppSidebar = () => {
             <Button
               key={item.href}
               asChild
-              variant={location.pathname === item.href ? 'default' : 'ghost'}
+              variant={
+                location.pathname.startsWith(item.href) &&
+                (item.href !== '/app' || location.pathname === '/app')
+                  ? 'default'
+                  : 'ghost'
+              }
               className="justify-start gap-3"
             >
               <Link to={item.href}>

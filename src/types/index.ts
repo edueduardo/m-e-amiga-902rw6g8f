@@ -53,12 +53,17 @@ export interface WeeklySummary {
   summary_text: string
 }
 
+export type PhoneVerificationStatus =
+  | 'verified'
+  | 'pending_email'
+  | 'not_verified'
+
 export interface UserProfile {
   id: string
   full_name: string
   email: string
   phone_number?: string
   is_email_verified?: boolean
-  is_phone_verified?: boolean
+  phone_verification_status?: PhoneVerificationStatus
   is_two_factor_enabled?: boolean
 }

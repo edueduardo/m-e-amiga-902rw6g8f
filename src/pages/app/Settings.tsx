@@ -11,17 +11,20 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/use-toast'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { PasswordStrength } from '@/components/PasswordStrength'
 import { Switch } from '@/components/ui/switch'
+import { PhoneNumberInput } from '@/components/PhoneNumberInput'
+import { Badge } from '@/components/ui/badge'
 
 const SettingsPage = () => {
-  const { user, isSubscribed, updateUser } = useAuth()
+  const { user, isSubscribed, updateUser, requestPhoneEmailVerification } =
+    useAuth()
   const { toast } = useToast()
-  const navigate = useNavigate()
   const [newPassword, setNewPassword] = useState('')
   const [phone, setPhone] = useState(user?.phone_number || '')
+  const [originalPhone, setOriginalPhone] = useState(user?.phone_number || '')
 
   const handleProfileUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -34,11 +37,45 @@ const SettingsPage = () => {
     })
   }
 
-  const handlePhoneSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePhoneUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    updateUser({ phone_number: phone })
-    // In a real app, this would trigger an SMS to be sent
-    navigate('/verify-phone')
+    const isNewNumber = phone !== originalPhone
+    updateUser({
+      phone_number: phone,
+      phone_verification_status: isNewNumber
+        ? 'not_verified'
+        : user?.phone_verification_status,
+    })
+    setOriginalPhone(phone)
+    toast({
+      title: 'Número de telefone salvo!',
+      description: isNewNumber
+        ? 'Agora, verifique seu número por e-mail.'
+        : 'Seu número de telefone foi salvo.',
+    })
+  }
+
+  const handleRequestVerification = () => {
+    const token = requestPhoneEmailVerification()
+    toast({
+      title: 'E-mail de verificação enviado!',
+      description:
+        'Enviamos um link para o seu e-mail para confirmar seu número de telefone.',
+    })
+    // In a real app, you would use this token in the email link
+    console.log(`Verification link: /verify-phone-by-email?token=${token}`)
+  }
+
+  const getVerificationStatusBadge = () => {
+    switch (user?.phone_verification_status) {
+      case 'verified':
+        return <Badge variant="secondary">Verificado</Badge>
+      case 'pending_email':
+        return <Badge variant="destructive">Verificação Pendente</Badge>
+      case 'not_verified':
+      default:
+        return <Badge variant="outline">Não Verificado</Badge>
+    }
   }
 
   return (
@@ -96,22 +133,27 @@ const SettingsPage = () => {
             </div>
             <Button>Alterar Senha</Button>
           </form>
-          <form onSubmit={handlePhoneSubmit} className="space-y-4">
+          <form onSubmit={handlePhoneUpdate} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="phone">Número de Telefone</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="(11) 99999-8888"
-              />
+              <div className="flex justify-between items-center">
+                <Label htmlFor="phone">Número de Telefone</Label>
+                {user?.phone_number && getVerificationStatusBadge()}
+              </div>
+              <PhoneNumberInput value={phone} onChange={setPhone} />
             </div>
-            <Button type="submit">
-              {user?.is_phone_verified
-                ? 'Alterar Telefone'
-                : 'Verificar Telefone'}
-            </Button>
+            <div className="flex gap-2">
+              <Button type="submit">Salvar Telefone</Button>
+              {user?.phone_verification_status !== 'verified' &&
+                user?.phone_number && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleRequestVerification}
+                  >
+                    Verificar por E-mail
+                  </Button>
+                )}
+            </div>
           </form>
           <div className="flex items-center justify-between rounded-lg border p-4">
             <div>
@@ -125,7 +167,7 @@ const SettingsPage = () => {
               onCheckedChange={(checked) =>
                 updateUser({ is_two_factor_enabled: checked })
               }
-              disabled={!user?.is_phone_verified}
+              disabled={user?.phone_verification_status !== 'verified'}
             />
           </div>
         </CardContent>

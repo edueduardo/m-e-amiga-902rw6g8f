@@ -6,7 +6,6 @@ import { InstallAppDialog } from '@/components/InstallAppDialog'
 import { HeartPulse, Music } from 'lucide-react'
 import { SOSDialog } from '../SOSDialog'
 import { AidaIndicator } from './AidaIndicator'
-import { HooponoponoDisplay } from '../HooponoponoDisplay'
 import { FreeSoundsDialog } from '../FreeSoundsDialog'
 
 export const HeroSection = () => {
@@ -19,12 +18,6 @@ export const HeroSection = () => {
     if (isAuthenticated && isSubscribed) return '/app'
     if (isAuthenticated && !isSubscribed) return '/pricing'
     return '/signup'
-  }
-
-  const handleScroll = () => {
-    document
-      .getElementById('how-it-works')
-      ?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const headline =
@@ -73,8 +66,12 @@ export const HeroSection = () => {
                 </Button>
               </div>
             </div>
-            <div className="flex items-center justify-center">
-              <HooponoponoDisplay variant="random" />
+            <div className="flex items-center justify-center animate-fade-in">
+              <img
+                src="https://img.usecurling.com/p/600/800?q=empowered%20woman%20serene%20looking%20away"
+                alt="Mulher Imponderada"
+                className="rounded-lg shadow-2xl object-cover aspect-[3/4] max-w-sm w-full"
+              />
             </div>
           </div>
         </div>

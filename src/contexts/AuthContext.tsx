@@ -17,6 +17,7 @@ interface AuthState {
 interface AuthContextType extends AuthState {
   isAuthenticated: boolean
   abTestGroup: ABTestGroup | null
+  isLoading: boolean
   login: (user: UserProfile, isSubscribed: boolean) => void
   logout: () => void
   updateUser: (data: Partial<UserProfile>) => void
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isSubscribed: false,
   })
   const [abTestGroup, setAbTestGroup] = useState<ABTestGroup | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     try {
@@ -48,6 +50,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Failed to parse auth state', error)
       localStorage.removeItem(AUTH_KEY)
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
@@ -122,6 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       ...authState,
       isAuthenticated: !!authState.user,
       abTestGroup,
+      isLoading,
       login,
       logout,
       updateUser,
@@ -132,6 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [
       authState,
       abTestGroup,
+      isLoading,
       login,
       logout,
       updateUser,

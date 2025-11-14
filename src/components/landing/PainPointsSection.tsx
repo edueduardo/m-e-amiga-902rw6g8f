@@ -28,11 +28,11 @@ export const PainPointsSection = () => {
           {painPoints.map((point, index) => (
             <Card
               key={index}
-              className="bg-secondary/50 animate-fade-in-up"
+              className="bg-secondary/50 animate-fade-in-up transition-all duration-300 hover:shadow-lg hover:-translate-y-2 hover:border-primary/50 border border-transparent"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <CardContent className="p-6 flex items-start space-x-4">
-                <CheckCircle2 className="h-6 w-6 text-primary mt-1" />
+                <CheckCircle2 className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                 <p className="text-lg font-medium">{point}</p>
               </CardContent>
             </Card>

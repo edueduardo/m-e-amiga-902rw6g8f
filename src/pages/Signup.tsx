@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -16,10 +16,17 @@ import { useToast } from '@/components/ui/use-toast'
 import { Loader2 } from 'lucide-react'
 
 const SignupPage = () => {
-  const { signUp } = useAuth()
+  const { signUp, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
   const { toast } = useToast()
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/app')
+    }
+  }, [isAuthenticated, navigate])
 
   const handleSignup = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -40,10 +47,8 @@ const SignupPage = () => {
     } else {
       toast({
         title: 'Conta criada com sucesso!',
-        description: 'Enviamos um e-mail de verificação para você.',
+        description: 'Bem-vinda! Redirecionando para o aplicativo...',
       })
-      // The onAuthStateChange listener in AuthContext will handle navigation
-      // or display of a "verify email" message.
     }
     setIsLoading(false)
   }

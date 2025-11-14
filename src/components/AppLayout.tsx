@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Loader2 } from 'lucide-react'
 
 export const AppLayout = () => {
-  const { isAuthenticated, isLoading, profile } = useAuth()
+  const { isAuthenticated, isLoading } = useAuth()
   const location = useLocation()
 
   if (isLoading) {
@@ -18,10 +18,6 @@ export const AppLayout = () => {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />
-  }
-
-  if (!profile?.is_email_verified) {
-    return <Navigate to="/verify-email" state={{ from: location }} replace />
   }
 
   return (

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/components/ui/use-toast'
 import { Loader2 } from 'lucide-react'
 
@@ -36,6 +36,10 @@ const LoginPage = () => {
         variant: 'destructive',
       })
     } else {
+      toast({
+        title: 'Login bem-sucedido!',
+        description: 'Bem-vinda de volta!',
+      })
       navigate('/app')
     }
     setIsLoading(false)

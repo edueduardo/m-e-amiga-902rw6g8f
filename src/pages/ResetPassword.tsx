@@ -12,8 +12,9 @@ import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
 import { useState, useEffect } from 'react'
 import { PasswordStrength } from '@/components/PasswordStrength'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { Loader2 } from 'lucide-react'
+import { supabase } from '@/lib/supabase/client'
 
 const ResetPasswordPage = () => {
   const { updatePassword } = useAuth()
@@ -29,7 +30,7 @@ const ResetPasswordPage = () => {
     // We just need to check if the user is in a recovery session
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') {
         setIsTokenValid(true)
       }

@@ -14,6 +14,17 @@ import {
   Calendar,
   Users,
   BookHeart,
+  Bot,
+  BrainCircuit,
+  BookMarked,
+  Music,
+  ListTodo,
+  Trophy,
+  Users2,
+  Flower2,
+  Library,
+  Award,
+  Cog,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -34,6 +45,42 @@ const DashboardPage = () => {
       iconClassName: 'text-green-500',
     },
     {
+      title: 'Coaching com IA',
+      description: 'Sessões guiadas para seu desenvolvimento pessoal.',
+      link: '/app/coaching',
+      icon: Bot,
+      className:
+        'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800',
+      iconClassName: 'text-indigo-500',
+    },
+    {
+      title: 'Autoconhecimento',
+      description: 'Entenda seus padrões emocionais e receba insights.',
+      link: '/app/self-knowledge',
+      icon: BrainCircuit,
+      className:
+        'bg-sky-50 dark:bg-sky-900/20 border-sky-200 dark:border-sky-800',
+      iconClassName: 'text-sky-500',
+    },
+    {
+      title: 'Diário Hoʻoponopono',
+      description: 'Pratique a limpeza de memórias e cultive a paz.',
+      link: '/app/journal',
+      icon: BookMarked,
+      className:
+        'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800',
+      iconClassName: 'text-rose-500',
+    },
+    {
+      title: 'Músicas e Meditações',
+      description: 'Playlists para relaxar e encontrar a calma.',
+      link: '/app/music',
+      icon: Music,
+      className:
+        'bg-teal-50 dark:bg-teal-900/20 border-teal-200 dark:border-teal-800',
+      iconClassName: 'text-teal-500',
+    },
+    {
       title: 'Círculo de Apoio',
       description: 'Conecte-se com outras mulheres de forma anônima.',
       link: '/app/support-circle',
@@ -52,6 +99,51 @@ const DashboardPage = () => {
       iconClassName: 'text-purple-500',
     },
     {
+      title: 'Meu Plano',
+      description: 'Organize suas tarefas de autocuidado e intenções.',
+      link: '/app/planner',
+      icon: ListTodo,
+      className:
+        'bg-lime-50 dark:bg-lime-900/20 border-lime-200 dark:border-lime-800',
+      iconClassName: 'text-lime-500',
+    },
+    {
+      title: 'Desafios',
+      description: 'Pequenos desafios semanais para seu bem-estar.',
+      link: '/app/challenges',
+      icon: Trophy,
+      className:
+        'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800',
+      iconClassName: 'text-amber-500',
+    },
+    {
+      title: 'Desafios da Comunidade',
+      description: 'Junte-se a outras mulheres em desafios coletivos.',
+      link: '/app/community-challenges',
+      icon: Users2,
+      className:
+        'bg-cyan-50 dark:bg-cyan-900/20 border-cyan-200 dark:border-cyan-800',
+      iconClassName: 'text-cyan-500',
+    },
+    {
+      title: 'Jardim do Crescimento',
+      description: 'Veja seus objetivos e seu progresso florescerem.',
+      link: '/app/growth-garden',
+      icon: Flower2,
+      className:
+        'bg-pink-50 dark:bg-pink-900/20 border-pink-200 dark:border-pink-800',
+      iconClassName: 'text-pink-500',
+    },
+    {
+      title: 'Biblioteca',
+      description: 'Recursos selecionados para seu crescimento.',
+      link: '/app/library',
+      icon: Library,
+      className:
+        'bg-stone-50 dark:bg-stone-900/20 border-stone-200 dark:border-stone-800',
+      iconClassName: 'text-stone-500',
+    },
+    {
       title: 'Como foi minha semana?',
       description: 'Veja um resumo carinhoso da sua jornada emocional.',
       link: '/app/summary',
@@ -59,6 +151,24 @@ const DashboardPage = () => {
       className:
         'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800',
       iconClassName: 'text-orange-500',
+    },
+    {
+      title: 'Minha Jornada',
+      description: 'Acompanhe seu progresso e suas conquistas.',
+      link: '/app/profile',
+      icon: Award,
+      className:
+        'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800',
+      iconClassName: 'text-yellow-500',
+    },
+    {
+      title: 'Configurações',
+      description: 'Gerencie sua conta, segurança e dados.',
+      link: '/app/settings',
+      icon: Cog,
+      className:
+        'bg-slate-50 dark:bg-slate-900/20 border-slate-200 dark:border-slate-800',
+      iconClassName: 'text-slate-500',
     },
   ]
 
@@ -112,7 +222,7 @@ const DashboardPage = () => {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => (
           <Card
             key={feature.link}
@@ -132,7 +242,7 @@ const DashboardPage = () => {
             <CardContent>
               <Button asChild variant="outline" className="w-full">
                 <Link to={feature.link}>
-                  Começar
+                  Acessar
                   <ArrowRight className="ml-auto h-4 w-4" />
                 </Link>
               </Button>

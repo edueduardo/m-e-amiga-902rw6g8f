@@ -30,6 +30,7 @@ import ForgotPasswordPage from './pages/ForgotPassword'
 import ResetPasswordPage from './pages/ResetPassword'
 import VerifyEmailPage from './pages/VerifyEmail'
 import VerifyPhoneNumberByEmailPage from './pages/VerifyPhoneNumberByEmail'
+import CookiePolicyPage from './pages/CookiePolicy'
 import DashboardPage from './pages/app/Dashboard'
 import ConversationsPage from './pages/app/Conversations'
 import CarePage from './pages/app/Care'
@@ -90,6 +91,7 @@ const App = () => {
                   path="/verify-phone-by-email"
                   element={<VerifyPhoneNumberByEmailPage />}
                 />
+                <Route path="/cookie-policy" element={<CookiePolicyPage />} />
 
                 <Route
                   path="/app"

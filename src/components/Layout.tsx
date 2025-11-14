@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { PublicHeader } from './PublicHeader'
 import { Footer } from './Footer'
 import { useAuth } from '@/hooks/useAuth'
+import { CookieConsentBanner } from './CookieConsentBanner'
 
 export default function Layout() {
   const location = useLocation()
@@ -20,6 +21,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <CookieConsentBanner />
     </div>
   )
 }

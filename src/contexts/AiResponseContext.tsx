@@ -64,7 +64,7 @@ export function AiResponseProvider({ children }: { children: ReactNode }) {
         ...prevState,
         status: 'error',
         error:
-          'A Mãe Amiga está demorando um pouco mais que o normal para responder. Por favor, tente novamente em alguns instantes.',
+          'A resposta está demorando mais do que o esperado. Por favor, tente novamente.',
       }))
     }, 15000) // 15 seconds timeout
   }
@@ -108,7 +108,7 @@ export function AiResponseProvider({ children }: { children: ReactNode }) {
           ...prevState,
           status: 'error',
           error:
-            'Ops, parece que houve uma falha no sistema. Não consegui gerar sua trilha agora. Por favor, tente novamente.',
+            'Houve um imprevisto e não foi possível gerar sua trilha. Que tal tentar de novo?',
         }))
       }
     },

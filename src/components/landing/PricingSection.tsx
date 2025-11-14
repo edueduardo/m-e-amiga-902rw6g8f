@@ -2,9 +2,10 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { Check } from 'lucide-react'
+import { AidaIndicator } from './AidaIndicator'
 
 export const PricingSection = () => {
-  const { isAuthenticated, isSubscribed } = useAuth()
+  const { isAuthenticated, isSubscribed, abTestGroup } = useAuth()
 
   const getCtaLink = () => {
     if (isAuthenticated && isSubscribed) return '/app'
@@ -12,8 +13,14 @@ export const PricingSection = () => {
     return '/signup'
   }
 
+  const ctaText =
+    abTestGroup === 'B'
+      ? 'Começar minha jornada de alívio'
+      : 'Quero meu bem-estar de volta'
+
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+    <section className="relative w-full py-12 md:py-24 lg:py-32 bg-background">
+      <AidaIndicator principle="Action" />
       <div className="container px-4 md:px-6">
         <div className="mx-auto max-w-2xl text-center space-y-6">
           <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl">
@@ -33,7 +40,7 @@ export const PricingSection = () => {
             </span>
           </div>
           <Button asChild size="lg" className="w-full sm:w-auto">
-            <Link to={getCtaLink()}>Quero meu bem-estar de volta</Link>
+            <Link to={getCtaLink()}>{ctaText}</Link>
           </Button>
         </div>
       </div>

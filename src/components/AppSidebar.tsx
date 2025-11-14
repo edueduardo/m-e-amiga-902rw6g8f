@@ -13,6 +13,8 @@ import {
   Music,
   Trophy,
   Users,
+  Award,
+  BookMarked,
 } from 'lucide-react'
 import {
   Tooltip,
@@ -38,6 +40,12 @@ const navItems = [
     label: 'Cuidar de mim',
     icon: HeartHandshake,
     description: 'Crie trilhas de autocuidado personalizadas para você.',
+  },
+  {
+    href: '/app/journal',
+    label: 'Diário Hoʻoponopono',
+    icon: BookMarked,
+    description: 'Pratique a limpeza de memórias e cultive a paz.',
   },
   {
     href: '/app/meditations',
@@ -80,6 +88,12 @@ const navItems = [
     label: 'Resumo',
     icon: Calendar,
     description: 'Veja um resumo carinhoso da sua jornada semanal.',
+  },
+  {
+    href: '/app/profile',
+    label: 'Minha Jornada',
+    icon: Award,
+    description: 'Veja seu progresso e suas conquistas.',
   },
   {
     href: '/app/settings',

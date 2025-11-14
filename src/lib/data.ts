@@ -11,9 +11,18 @@ import {
   Challenge,
   LibraryResource,
   HooponoponoPractice,
+  SoothingSound,
+  GamificationBadge,
 } from '@/types'
 import { format, subDays } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import {
+  BookHeart,
+  MessageSquareHeart,
+  Sparkles,
+  Star,
+  Trophy,
+} from 'lucide-react'
 
 export const testimonials: Testimonial[] = [
   {
@@ -52,36 +61,6 @@ export const careRoutines: CareRoutine[] = [
       'Repita por 10 ciclos ou até se sentir mais calma.',
     ],
   },
-  {
-    id: '2',
-    title: 'Chá Aconchegante',
-    description:
-      'Um ritual de 5 minutos para trazer conforto e calor para o seu dia.',
-    estimated_minutes: 5,
-    steps: [
-      'Escolha um chá que você ame (camomila, erva-doce, etc.).',
-      'Prepare a água e a xícara com intenção e calma.',
-      'Enquanto o chá infunde, observe o vapor e sinta o aroma.',
-      'Segure a xícara quente com as duas mãos.',
-      'Beba em pequenos goles, prestando atenção total ao sabor e à sensação de calor.',
-      'Agradeça a si mesma por este momento.',
-    ],
-  },
-  {
-    id: '3',
-    title: 'Escrita Terapêutica',
-    description:
-      'Tire 10 minutos para colocar no papel tudo o que está pesando, sem filtros.',
-    estimated_minutes: 10,
-    steps: [
-      'Pegue um caderno e uma caneta.',
-      'Marque 10 minutos no seu celular.',
-      'Escreva continuamente tudo o que vier à sua mente, sem se preocupar com a gramática ou a coerência.',
-      'Não julgue seus pensamentos, apenas deixe-os fluir para o papel.',
-      'Ao final, leia o que escreveu (se quiser) e depois rasgue ou guarde o papel.',
-      'Sinta a leveza de ter tirado esse peso de dentro de você.',
-    ],
-  },
 ]
 
 const allMicroCourses: MicroCourse[] = [
@@ -110,114 +89,6 @@ const allMicroCourses: MicroCourse[] = [
       },
     ],
   },
-  {
-    id: '2',
-    slug: 'resgatando-o-autocuidado',
-    title: 'Resgatando o Autocuidado',
-    summary:
-      'Pequenos passos para voltar a se colocar como prioridade na sua vida.',
-    isAiGenerated: true,
-    lessons: [
-      {
-        id: '201',
-        course_slug: 'resgatando-o-autocuidado',
-        lesson_number: 1,
-        title: '5 minutos que salvam',
-        content_markdown:
-          'Autocuidado não é um dia no spa. Comece com 5 minutos. Apenas 5 minutos por dia que sejam SÓ SEUS. Pode ser para tomar um café em silêncio, ouvir uma música, ou simplesmente não fazer nada.',
-      },
-    ],
-  },
-  {
-    id: '3',
-    slug: 'lidando-com-a-culpa-materna',
-    title: 'Lidando com a Culpa Materna',
-    summary: 'Entenda e acolha a culpa para viver uma maternidade mais leve.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '4',
-    slug: 'estabelecendo-limites-saudaveis',
-    title: 'Estabelecendo Limites Saudáveis',
-    summary: 'Aprenda a dizer "não" sem culpa e a proteger sua energia.',
-    isAiGenerated: true,
-    lessons: [
-      {
-        id: '401',
-        course_slug: 'estabelecendo-limites-saudaveis',
-        lesson_number: 1,
-        title: 'O "Não" é um "Sim" para Você',
-        content_markdown:
-          'Cada vez que você diz "não" para algo que não quer ou não pode fazer, está dizendo "sim" para sua paz, seu tempo e sua saúde mental. Não é egoísmo, é autopreservação.',
-      },
-    ],
-  },
-  {
-    id: '5',
-    slug: 'reconectando-se-com-seu-parceiro',
-    title: 'Reconectando-se com seu Parceiro',
-    summary:
-      'Dicas para reacender a intimidade e a parceria no relacionamento.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '6',
-    slug: 'gerenciamento-do-estresse-diario',
-    title: 'Gerenciamento do Estresse Diário',
-    summary: 'Técnicas simples para encontrar calma no meio do caos.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '7',
-    slug: 'organizando-a-rotina-da-casa',
-    title: 'Organizando a Rotina da Casa',
-    summary: 'Como criar um sistema que funcione para você e sua família.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '8',
-    slug: 'cultivando-a-autoestima',
-    title: 'Cultivando a Autoestima',
-    summary: 'Práticas para se enxergar com mais amor e gentileza.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '9',
-    slug: 'financas-para-mulheres',
-    title: 'Finanças para Mulheres',
-    summary: 'Assuma o controle da sua vida financeira com confiança.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '10',
-    slug: 'encontrando-prazer-nas-pequenas-coisas',
-    title: 'Encontrando Prazer nas Pequenas Coisas',
-    summary: 'Um convite para redescobrir a alegria nos detalhes do dia a dia.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '11',
-    slug: 'o-poder-do-sono-reparador',
-    title: 'O Poder do Sono Reparador',
-    summary: 'Dicas para melhorar a qualidade do seu sono e ter mais energia.',
-    isAiGenerated: true,
-    lessons: [],
-  },
-  {
-    id: '12',
-    slug: 'navegando-conversas-dificeis',
-    title: 'Navegando Conversas Difíceis',
-    summary: 'Estratégias para abordar temas sensíveis com mais confiança.',
-    isAiGenerated: true,
-    lessons: [],
-  },
 ]
 
 const shuffleAndTake = <T>(arr: T[], count: number): T[] => {
@@ -242,26 +113,6 @@ export const voiceEntries: VoiceEntry[] = [
     audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     feedback: { rating: null },
   },
-  {
-    id: '2',
-    created_at: subDays(today, 3).toISOString(),
-    transcript:
-      'Estou tão preocupada com as contas. Fico pensando nisso a noite toda e não consigo dormir direito. Essa ansiedade está me consumindo.',
-    mood_label: 'ansiosa',
-    mother_reply:
-      'Filha, respira fundo. Sinto sua angústia daqui. Tente focar no agora. O que você pode controlar neste exato momento? Talvez uma caminhada curta ou ouvir uma música que te acalme possa ajudar a clarear a mente. Um passo de cada vez, querida.',
-    feedback: { rating: 'helpful', comment: 'Gostei do conselho prático.' },
-  },
-  {
-    id: '3',
-    created_at: subDays(today, 5).toISOString(),
-    transcript:
-      'Hoje meu chefe me deu os parabéns por um projeto. Fiquei tão feliz, senti que meu esforço foi reconhecido!',
-    mood_label: 'feliz',
-    mother_reply:
-      'Que alegria ler isso, filha! Fico com o coração quentinho em saber que você está feliz. Aproveite cada segundo desse sentimento. Guarde essa sensação boa no coração para os dias que não forem tão fáceis. Celebre suas conquistas, por menores que pareçam!',
-    feedback: { rating: null },
-  },
 ]
 
 export const weeklySummary: WeeklySummary = {
@@ -284,11 +135,6 @@ export const anonymousAliases = [
   'Estrela Guia',
   'Rio Calmo',
   'Borboleta Azul',
-  'Orquídea Rara',
-  'Pérola do Mar',
-  'Brisa Suave',
-  'Aurora Boreal',
-  'Colibri Veloz',
 ]
 
 export const supportPosts: SupportPost[] = [
@@ -308,24 +154,7 @@ export const supportPosts: SupportPost[] = [
           'Nossa, eu sinto EXATAMENTE a mesma coisa. Você não está sozinha! Meu terapeuta disse que isso é super normal e que precisamos desses "respiros" para sermos melhores para nós mesmas e para eles.',
         created_at: subDays(today, 1).toISOString(),
       },
-      {
-        id: 'reply-1-2',
-        postId: 'post-1',
-        authorAlias: 'Lua Crescente',
-        content:
-          'Super normal! Eu comecei a "agendar" meu tempo sozinha. Uma vez por semana, saio para caminhar por 40 minutos. No começo foi difícil, mas agora todo mundo em casa já se acostumou e respeita. Tenta começar com pouco tempo!',
-        created_at: new Date().toISOString(),
-      },
     ],
-  },
-  {
-    id: 'post-2',
-    authorAlias: 'Estrela Guia',
-    title: 'Como conversar com o marido sobre a divisão de tarefas?',
-    content:
-      'Eu trabalho fora, cuido da casa, das crianças... e meu marido parece que não enxerga. Ele ajuda quando eu peço, mas eu queria que ele tivesse mais iniciativa. Já tentei conversar, mas vira briga. Alguma dica de como abordar isso sem parecer que estou reclamando?',
-    created_at: subDays(today, 2).toISOString(),
-    replies: [],
   },
 ]
 
@@ -337,48 +166,6 @@ const allMeditations: MeditationAudio[] = [
     duration_seconds: 300,
     audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
   },
-  {
-    id: 'med2',
-    title: 'Foco Pleno para o Trabalho',
-    theme: 'focus',
-    duration_seconds: 180,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-  },
-  {
-    id: 'med3',
-    title: 'Relaxamento Profundo para Dormir',
-    theme: 'sleep',
-    duration_seconds: 600,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
-  },
-  {
-    id: 'med4',
-    title: 'Meditação da Gratidão',
-    theme: 'gratitude',
-    duration_seconds: 240,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
-  },
-  {
-    id: 'med5',
-    title: 'Fortalecendo a Autoestima',
-    theme: 'self-esteem',
-    duration_seconds: 360,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
-  },
-  {
-    id: 'med6',
-    title: 'Pausa de 5 Minutos',
-    theme: 'relaxation',
-    duration_seconds: 300,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
-  },
-  {
-    id: 'med7',
-    title: 'Concentração para Tarefas',
-    theme: 'focus',
-    duration_seconds: 420,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
-  },
 ]
 
 const allGuidedAudios: MeditationAudio[] = [
@@ -388,48 +175,6 @@ const allGuidedAudios: MeditationAudio[] = [
     theme: 'sleep',
     duration_seconds: 720,
     audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
-  },
-  {
-    id: 'ga2',
-    title: 'Jornada do Amor Próprio',
-    theme: 'self-esteem',
-    duration_seconds: 900,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
-  },
-  {
-    id: 'ga3',
-    title: 'Lidando com a Sobrecarga',
-    theme: 'relaxation',
-    duration_seconds: 600,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
-  },
-  {
-    id: 'ga4',
-    title: 'Encontrando a Calma Interior',
-    theme: 'relaxation',
-    duration_seconds: 540,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3',
-  },
-  {
-    id: 'ga5',
-    title: 'O Poder da Gratidão',
-    theme: 'gratitude',
-    duration_seconds: 480,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3',
-  },
-  {
-    id: 'ga6',
-    title: 'Preparação para um Dia Produtivo',
-    theme: 'focus',
-    duration_seconds: 400,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
-  },
-  {
-    id: 'ga7',
-    title: 'Desconectando para Dormir',
-    theme: 'sleep',
-    duration_seconds: 800,
-    audio_url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3',
   },
 ]
 
@@ -443,38 +188,8 @@ const allInspirations: Affirmation[] = [
     type: 'affirmation',
   },
   {
-    id: 'aff2',
-    text: 'Eu permito que a calma preencha minha mente e meu corpo.',
-    type: 'affirmation',
-  },
-  {
-    id: 'aff3',
-    text: 'Está tudo bem não ser perfeita. Eu sou suficiente como sou.',
-    type: 'affirmation',
-  },
-  {
-    id: 'aff4',
-    text: 'Eu escolho focar no que posso controlar e liberar o resto.',
-    type: 'affirmation',
-  },
-  {
-    id: 'aff5',
-    text: 'Meu valor não é medido pela minha produtividade.',
-    type: 'affirmation',
-  },
-  {
-    id: 'aff6',
-    text: 'Eu sou digna de amor, descanso e felicidade.',
-    type: 'affirmation',
-  },
-  {
     id: 'hoop1',
     text: 'Sinto muito. Me perdoe. Te amo. Sou grata.',
-    type: 'hooponopono',
-  },
-  {
-    id: 'hoop2',
-    text: 'Divino Criador, limpe em mim as memórias que causam este sentimento.',
     type: 'hooponopono',
   },
 ]
@@ -489,16 +204,6 @@ export const plannerTasks: PlannerTask[] = [
     content: 'Tirar 10 minutos para ler um livro',
     status: 'todo',
   },
-  {
-    id: 'task2',
-    content: 'Agendar consulta médica',
-    status: 'in-progress',
-  },
-  {
-    id: 'task3',
-    content: 'Fazer uma caminhada de 20 minutos',
-    status: 'done',
-  },
 ]
 
 export const weeklyChallenges: Challenge[] = [
@@ -509,30 +214,24 @@ export const weeklyChallenges: Challenge[] = [
     theme: 'gratitude',
     steps: [
       { id: 's1', description: 'Dia 1', is_completed: true },
-      { id: 's2', description: 'Dia 2', is_completed: true },
+      { id: 's2', description: 'Dia 2', is_completed: false },
       { id: 's3', description: 'Dia 3', is_completed: false },
-      { id: 's4', description: 'Dia 4', is_completed: false },
-      { id: 's5', description: 'Dia 5', is_completed: false },
-      { id: 's6', description: 'Dia 6', is_completed: false },
-      { id: 's7', description: 'Dia 7', is_completed: false },
     ],
     personalized_tip:
       'Tente pensar em coisas pequenas e específicas, como o cheiro do café ou um abraço apertado.',
   },
   {
-    id: 'chal2',
-    title: 'Comunicação Positiva',
-    description: 'Faça um elogio sincero ao seu parceiro todos os dias.',
-    theme: 'communication',
+    id: 'chal3',
+    title: 'Jornada Hoʻoponopono',
+    description: 'Dedique 5 minutos do seu dia para a prática do Hoʻoponopono.',
+    theme: 'hooponopono',
     steps: [
-      { id: 's1', description: 'Dia 1', is_completed: false },
-      { id: 's2', description: 'Dia 2', is_completed: false },
-      { id: 's3', description: 'Dia 3', is_completed: false },
-      { id: 's4', description: 'Dia 4', is_completed: false },
-      { id: 's5', description: 'Dia 5', is_completed: false },
+      { id: 'h1', description: 'Dia 1: Limpeza Geral', is_completed: false },
+      { id: 'h2', description: 'Dia 2: Foco no Perdão', is_completed: false },
+      { id: 'h3', description: 'Dia 3: Foco no Amor', is_completed: false },
     ],
     personalized_tip:
-      'Observe algo que ele faz bem e que muitas vezes passa despercebido. O reconhecimento fortalece a conexão.',
+      'Encontre um lugar tranquilo, feche os olhos e repita as frases "Sinto muito, me perdoe, te amo, sou grata" focando em uma situação específica que te incomoda.',
   },
 ]
 
@@ -547,78 +246,6 @@ const allLibraryResources: LibraryResource[] = [
     cover_image_url:
       'https://img.usecurling.com/p/400/300?q=woman%20tired%20reading',
     topic: 'mental_health',
-  },
-  {
-    id: 'res2',
-    title: 'Comunicação Não-Violenta na Prática',
-    description:
-      'Um vídeo curto com dicas práticas para melhorar o diálogo no relacionamento.',
-    type: 'video',
-    url: '#',
-    cover_image_url:
-      'https://img.usecurling.com/p/400/300?q=couple%20talking%20calmly',
-    topic: 'relationships',
-  },
-  {
-    id: 'res3',
-    title: 'A Maternidade e o Luto da Mulher que Fui',
-    description:
-      'Recomendação de livro que aborda as transformações da identidade após a chegada dos filhos.',
-    type: 'book',
-    url: '#',
-    cover_image_url:
-      'https://img.usecurling.com/p/400/300?q=thoughtful%20mother',
-    topic: 'motherhood',
-  },
-  {
-    id: 'res4',
-    title: 'O Poder do Hábito',
-    description:
-      'Como pequenas mudanças na rotina podem transformar sua vida. Recomendação de livro.',
-    type: 'book',
-    url: '#',
-    cover_image_url:
-      'https://img.usecurling.com/p/400/300?q=journal%20and%20pen',
-    topic: 'personal_development',
-  },
-  {
-    id: 'res5',
-    title: 'Entendendo a Ansiedade: O que Acontece no seu Cérebro',
-    description: 'Um vídeo animado que explica a ansiedade de forma simples.',
-    type: 'video',
-    url: '#',
-    cover_image_url: 'https://img.usecurling.com/p/400/300?q=animated%20brain',
-    topic: 'mental_health',
-  },
-  {
-    id: 'res6',
-    title: 'As 5 Linguagens do Amor',
-    description:
-      'Descubra a sua e a do seu parceiro para fortalecer a conexão. Recomendação de livro.',
-    type: 'book',
-    url: '#',
-    cover_image_url: 'https://img.usecurling.com/p/400/300?q=love%20languages',
-    topic: 'relationships',
-  },
-  {
-    id: 'res7',
-    title: 'Como Lidar com a Birra dos Filhos (sem perder a calma)',
-    description:
-      'Um artigo com estratégias práticas para momentos de crise com os pequenos.',
-    type: 'article',
-    url: '#',
-    cover_image_url: 'https://img.usecurling.com/p/400/300?q=toddler%20tantrum',
-    topic: 'motherhood',
-  },
-  {
-    id: 'res8',
-    title: 'Mindset: A Nova Psicologia do Sucesso',
-    description:
-      'Entenda como sua mentalidade afeta seu crescimento. Recomendação de livro.',
-    type: 'book',
-    url: '#',
-    cover_image_url: 'https://img.usecurling.com/p/400/300?q=growth%20mindset',
-    topic: 'personal_development',
   },
 ]
 
@@ -643,7 +270,7 @@ export const getDynamicLibraryResources = (): {
 export const { resources: libraryResources, topics: libraryTopics } =
   getDynamicLibraryResources()
 
-const allHooponoponoPractices: HooponoponoPractice[] = [
+export const hooponoponoPractices: HooponoponoPractice[] = [
   {
     id: 'hoop1',
     title: 'Limpando Memórias de Dor',
@@ -652,6 +279,16 @@ const allHooponoponoPractices: HooponoponoPractice[] = [
       "Esta é a prática central do Ho'oponopono. Ao repeti-la, você pede ao Divino para limpar as memórias dolorosas em você que se manifestam como problemas no mundo.",
     practice_tip:
       'Repita as quatro frases mentalmente, focando no sentimento ou situação que te incomoda. Não precisa sentir nada especial, apenas confie no processo de limpeza.',
+    aidaStory: {
+      attention:
+        'Ana sentia um peso constante no peito, uma tristeza antiga que ela não sabia de onde vinha.',
+      interest:
+        'Ela ouviu falar de uma prática havaiana simples, quatro frases que prometiam limpeza e paz.',
+      desire:
+        'Imaginou como seria acordar um dia sem aquele aperto, sentindo-se leve e livre daquele fardo invisível.',
+      action:
+        'Então, em silêncio, ela começou a repetir para si mesma: "Sinto muito, me perdoe, te amo, sou grata", entregando sua dor.',
+    },
   },
   {
     id: 'hoop2',
@@ -662,6 +299,16 @@ const allHooponoponoPractices: HooponoponoPractice[] = [
       "O Ho'oponopono nos ensina que somos 100% responsáveis por tudo em nossa realidade. Esta frase é uma forma de entregar o problema para a Divindade, pedindo que a causa dentro de você seja curada.",
     practice_tip:
       'Quando se deparar com um conflito ou uma situação difícil, repita esta frase. É um ato de humildade e entrega, liberando a necessidade de controlar o resultado.',
+    aidaStory: {
+      attention:
+        'Toda vez que seu chefe a criticava, Laura sentia uma raiva imensa, arruinando seu dia.',
+      interest:
+        "Ela aprendeu que, segundo o Ho'oponopono, a reação dela era uma memória interna, não culpa do chefe.",
+      desire:
+        'Laura desejou profundamente não ser mais refém daquela raiva, querendo sentir paz mesmo diante da crítica.',
+      action:
+        'Antes da próxima reunião, ela fechou os olhos e pediu: "Divindade, limpe em mim o que está contribuindo para este problema."',
+    },
   },
   {
     id: 'hoop3',
@@ -671,11 +318,87 @@ const allHooponoponoPractices: HooponoponoPractice[] = [
       'Esta é uma ferramenta de limpeza poderosa para apagar memórias. Imagine uma gota de orvalho caindo sobre a situação ou sentimento, purificando-o completamente.',
     practice_tip:
       'Pense na situação que te aflige e repita mentalmente "Gota de Orvalho". Visualize a pureza da gota limpando toda a negatividade associada.',
+    aidaStory: {
+      attention:
+        'A ansiedade antes de dormir tomava conta de Sofia, com mil pensamentos acelerados.',
+      interest:
+        'Uma amiga lhe contou sobre uma técnica de visualização simples, usando apenas duas palavras.',
+      desire:
+        'Ela ansiava por uma noite de sono tranquila, onde sua mente pudesse finalmente descansar e se acalmar.',
+      action:
+        'Naquela noite, ao invés de lutar contra os pensamentos, ela os imaginou sendo tocados por uma "Gota de Orvalho", que os dissolvia suavemente.',
+    },
   },
 ]
 
-export const getDynamicHooponoponoPractice = (): HooponoponoPractice => {
-  return allHooponoponoPractices[
-    Math.floor(Math.random() * allHooponoponoPractices.length)
+export const getDailyHooponopono = (): HooponoponoPractice => {
+  const dayOfYear = Math.floor(
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) /
+      86400000,
+  )
+  return hooponoponoPractices[dayOfYear % hooponoponoPractices.length]
+}
+
+export const getRandomHooponopono = (): HooponoponoPractice => {
+  return hooponoponoPractices[
+    Math.floor(Math.random() * hooponoponoPractices.length)
   ]
 }
+
+export const soothingSounds: SoothingSound[] = [
+  {
+    id: 'sound1',
+    name: 'Ondas Suaves da Praia',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',
+  },
+  {
+    id: 'sound2',
+    name: 'Chuva Leve na Floresta',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3',
+  },
+  {
+    id: 'sound3',
+    name: 'Som Branco (White Noise)',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+  },
+]
+
+export const gamificationBadges: (GamificationBadge & {
+  pointsThreshold: number
+})[] = [
+  {
+    id: 'badge1',
+    name: 'Primeiro Passo',
+    description: 'Você iniciou sua jornada de autocuidado. Parabéns!',
+    icon: Star,
+    pointsThreshold: 10,
+  },
+  {
+    id: 'badge2',
+    name: 'Coração Aberto',
+    description: 'Completou seu primeiro desabafo no Diário de Voz.',
+    icon: MessageSquareHeart,
+    pointsThreshold: 50,
+  },
+  {
+    id: 'badge3',
+    name: 'Mente Sábia',
+    description: 'Concluiu seu primeiro minicurso.',
+    icon: BookHeart,
+    pointsThreshold: 100,
+  },
+  {
+    id: 'badge4',
+    name: 'Guerreira do Desafio',
+    description: 'Completou seu primeiro desafio semanal.',
+    icon: Trophy,
+    pointsThreshold: 150,
+  },
+  {
+    id: 'badge5',
+    name: 'Paz Interior',
+    description: 'Escreveu 5 vezes no Diário Hoʻoponopono.',
+    icon: Sparkles,
+    pointsThreshold: 250,
+  },
+]

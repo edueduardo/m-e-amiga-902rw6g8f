@@ -1,3 +1,5 @@
+import { LucideIcon } from 'lucide-react'
+
 export interface Testimonial {
   name: string
   quote: string
@@ -110,7 +112,6 @@ export interface SupportPost {
   replies: SupportReply[]
 }
 
-// New Types for Well-being Features
 export interface MeditationAudio {
   id: string
   title: string
@@ -144,7 +145,12 @@ export interface Challenge {
   id: string
   title: string
   description: string
-  theme: 'communication' | 'gratitude' | 'organization' | 'self-care'
+  theme:
+    | 'communication'
+    | 'gratitude'
+    | 'organization'
+    | 'self-care'
+    | 'hooponopono'
   steps: ChallengeStep[]
   personalized_tip: string
 }
@@ -165,10 +171,49 @@ export interface LibraryResource {
     | 'personal_development'
 }
 
+export interface AidaStory {
+  attention: string
+  interest: string
+  desire: string
+  action: string
+}
+
 export interface HooponoponoPractice {
   id: string
   title: string
   phrase: string
   explanation: string
   practice_tip: string
+  aidaStory: AidaStory
+}
+
+export interface SoothingSound {
+  id: string
+  name: string
+  url: string
+}
+
+export interface GamificationBadge {
+  id: string
+  name: string
+  description: string
+  icon: LucideIcon
+}
+
+export interface UserGamificationProfile {
+  points: number
+  level: number
+  unlockedBadges: string[]
+}
+
+export interface UserPreferences {
+  sosPracticeId: string
+  sosSoundId: string
+}
+
+export interface HooponoponoJournalEntry {
+  id: string
+  date: string
+  prompt: string
+  content: string
 }

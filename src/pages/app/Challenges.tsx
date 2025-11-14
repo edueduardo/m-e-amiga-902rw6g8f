@@ -14,6 +14,7 @@ import { Lightbulb, Trophy } from 'lucide-react'
 import { weeklyChallenges } from '@/lib/data'
 import { Challenge, ChallengeStep } from '@/types'
 import { Label } from '@/components/ui/label'
+import { useGamification } from '@/contexts/GamificationContext'
 
 const ChallengeCard = ({
   initialChallenge,
@@ -21,16 +22,27 @@ const ChallengeCard = ({
   initialChallenge: Challenge
 }) => {
   const [challenge, setChallenge] = useState<Challenge>(initialChallenge)
+  const { addPoints } = useGamification()
 
   const handleStepToggle = (stepId: string) => {
-    setChallenge((prevChallenge) => ({
-      ...prevChallenge,
-      steps: prevChallenge.steps.map((step) =>
+    const isCompleting = !challenge.steps.find((s) => s.id === stepId)
+      ?.is_completed
+    if (isCompleting) {
+      addPoints(10, `Completou um passo do desafio: ${challenge.title}`)
+    }
+
+    setChallenge((prevChallenge) => {
+      const updatedSteps = prevChallenge.steps.map((step) =>
         step.id === stepId
           ? { ...step, is_completed: !step.is_completed }
           : step,
-      ),
-    }))
+      )
+      const allCompleted = updatedSteps.every((step) => step.is_completed)
+      if (allCompleted) {
+        addPoints(50, `Completou o desafio: ${challenge.title}`)
+      }
+      return { ...prevChallenge, steps: updatedSteps }
+    })
   }
 
   const completedSteps = challenge.steps.filter(

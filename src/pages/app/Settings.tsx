@@ -30,13 +30,17 @@ import {
 import { useConversations } from '@/contexts/ConversationsContext'
 import { GenerateReportDialog } from '@/components/GenerateReportDialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { User, Shield, CreditCard, Database } from 'lucide-react'
+import { User, Shield, CreditCard, Database, Sparkles } from 'lucide-react'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { useUserPreferences } from '@/contexts/UserPreferencesContext'
+import { hooponoponoPractices, soothingSounds } from '@/lib/data'
 
 const SettingsPage = () => {
   const { user, isSubscribed, updateUser, requestPhoneEmailVerification } =
     useAuth()
   const { deleteAllEntries } = useConversations()
   const { toast } = useToast()
+  const { preferences, updatePreferences } = useUserPreferences()
   const [newPassword, setNewPassword] = useState('')
   const [phone, setPhone] = useState(user?.phone_number || '')
   const [originalPhone, setOriginalPhone] = useState(user?.phone_number || '')
@@ -119,7 +123,7 @@ const SettingsPage = () => {
         </p>
       </div>
       <Tabs defaultValue="profile" className="w-full space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="profile">
             <User className="mr-2 h-4 w-4" /> Perfil
           </TabsTrigger>
@@ -128,6 +132,9 @@ const SettingsPage = () => {
           </TabsTrigger>
           <TabsTrigger value="subscription">
             <CreditCard className="mr-2 h-4 w-4" /> Assinatura
+          </TabsTrigger>
+          <TabsTrigger value="personalization">
+            <Sparkles className="mr-2 h-4 w-4" /> Personalização
           </TabsTrigger>
           <TabsTrigger value="data">
             <Database className="mr-2 h-4 w-4" /> Dados
@@ -257,6 +264,56 @@ const SettingsPage = () => {
                   <Link to="/pricing">Ativar Mãe Amiga por R$ 10</Link>
                 </Button>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="personalization">
+          <Card>
+            <CardHeader>
+              <CardTitle>Personalização do SOS</CardTitle>
+              <CardDescription>
+                Escolha a prática e o som que mais te acalmam para o botão SOS.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-3">
+                <Label className="font-semibold">Prática Ho'oponopono</Label>
+                <RadioGroup
+                  value={preferences.sosPracticeId}
+                  onValueChange={(value) =>
+                    updatePreferences({ sosPracticeId: value })
+                  }
+                  className="space-y-2"
+                >
+                  {hooponoponoPractices.map((practice) => (
+                    <div
+                      key={practice.id}
+                      className="flex items-center space-x-2"
+                    >
+                      <RadioGroupItem value={practice.id} id={practice.id} />
+                      <Label htmlFor={practice.id}>{practice.title}</Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+              <div className="space-y-3">
+                <Label className="font-semibold">Som Relaxante</Label>
+                <RadioGroup
+                  value={preferences.sosSoundId}
+                  onValueChange={(value) =>
+                    updatePreferences({ sosSoundId: value })
+                  }
+                  className="space-y-2"
+                >
+                  {soothingSounds.map((sound) => (
+                    <div key={sound.id} className="flex items-center space-x-2">
+                      <RadioGroupItem value={sound.id} id={sound.id} />
+                      <Label htmlFor={sound.id}>{sound.name}</Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

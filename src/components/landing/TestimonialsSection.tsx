@@ -8,10 +8,12 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { testimonials } from '@/lib/data'
+import { AidaIndicator } from './AidaIndicator'
 
 export const TestimonialsSection = () => {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
+    <section className="relative w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
+      <AidaIndicator principle="Desire" />
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">

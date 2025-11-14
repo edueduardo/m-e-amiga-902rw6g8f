@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { CheckCircle2 } from 'lucide-react'
+import { AidaIndicator } from './AidaIndicator'
 
 const painPoints = [
   'Você segura o choro para não preocupar ninguém?',
@@ -9,7 +10,8 @@ const painPoints = [
 
 export const PainPointsSection = () => {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+    <section className="relative w-full py-12 md:py-24 lg:py-32 bg-background">
+      <AidaIndicator principle="Interest" />
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
@@ -24,7 +26,11 @@ export const PainPointsSection = () => {
         </div>
         <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-1 md:grid-cols-3 md:gap-12 lg:max-w-5xl mt-12">
           {painPoints.map((point, index) => (
-            <Card key={index} className="bg-secondary/50">
+            <Card
+              key={index}
+              className="bg-secondary/50 animate-fade-in-up"
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
               <CardContent className="p-6 flex items-start space-x-4">
                 <CheckCircle2 className="h-6 w-6 text-primary mt-1" />
                 <p className="text-lg font-medium">{point}</p>

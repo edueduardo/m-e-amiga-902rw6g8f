@@ -10,6 +10,7 @@ import {
   Trophy,
   Users,
 } from 'lucide-react'
+import { AidaIndicator } from './AidaIndicator'
 
 const features = [
   {
@@ -70,7 +71,8 @@ const features = [
 
 export const AppFeaturesGrid = () => {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+    <section className="relative w-full py-12 md:py-24 lg:py-32 bg-background">
+      <AidaIndicator principle="Desire" />
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -85,7 +87,8 @@ export const AppFeaturesGrid = () => {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="bg-secondary/50 border-transparent hover:border-primary transition-colors duration-300"
+              className="bg-secondary/50 border-transparent hover:border-primary transition-colors duration-300 animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardHeader className="flex flex-row items-center gap-4 pb-2">
                 <feature.icon className="h-8 w-8 text-primary" />

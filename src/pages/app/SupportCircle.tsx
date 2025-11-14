@@ -124,7 +124,8 @@ const SupportCirclePage = () => {
         <Card>
           <CardHeader>
             <CardTitle>
-              Publicações em "{rooms.find((r) => r.id === selectedRoomId)?.name}"
+              Publicações em "{rooms.find((r) => r.id === selectedRoomId)?.name}
+              "
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
@@ -210,7 +211,7 @@ const SupportCirclePage = () => {
                   />
                   <Button onClick={handleAddReply}>Responder</Button>
                 </div>
-              </>
+              </CardFooter>
             </>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground p-8">
@@ -232,5 +233,3 @@ const SupportCirclePage = () => {
 }
 
 export default SupportCirclePage
-
-

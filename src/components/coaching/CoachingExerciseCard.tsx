@@ -58,14 +58,14 @@ export const CoachingExerciseCard = ({
         return (
           <div className="space-y-4">
             <Slider
-              value={[response as number] || [5]}
+              value={[(response as number) ?? 5]}
               onValueChange={(val) => setResponse(val[0])}
               max={10}
               step={1}
               disabled={isSubmitted}
             />
             <p className="text-center font-bold text-primary">
-              {response || 5} / 10
+              {response ?? 5} / 10
             </p>
           </div>
         )

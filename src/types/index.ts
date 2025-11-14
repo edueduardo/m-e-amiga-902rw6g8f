@@ -71,8 +71,9 @@ export interface UserProfile {
 export interface QuizQuestion {
   id: string
   question: string
-  type: 'multiple-choice' | 'text'
+  type: 'multiple-choice' | 'text' | 'rorschach'
   options?: string[]
+  imageUrl?: string
 }
 
 export type AiTone = 'amoras' | 'reais duros' | 'impactantes'

@@ -4,6 +4,8 @@ import { QuizQuestion, SelfCarePlan } from '@/types'
 const API_URL = 'https://api.openai.com/v1'
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
+export type SelfCareFocus = 'daily' | 'weekly' | 'monthly'
+
 interface EmotionalProfile {
   primaryEmotion: string
   secondaryEmotions: string[]
@@ -216,23 +218,49 @@ export const generateWeeklyMotherSummary = async (
   }
 }
 
-export const generateSelfCareQuiz = async (): Promise<QuizQuestion[]> => {
+export const generateSelfCareQuiz = async (
+  focus: SelfCareFocus,
+): Promise<QuizQuestion[]> => {
   const fallbackQuiz: QuizQuestion[] = [
     {
-      id: '1',
-      question: 'Como você descreveria sua energia hoje?',
-      type: 'multiple-choice',
-      options: ['Cheia de energia', 'Normal', 'Cansada', 'Exausta'],
+      id: 'q1_feeling',
+      question: 'Em uma palavra, como você se sente agora?',
+      type: 'text',
     },
     {
-      id: '2',
-      question: 'Qual área da sua vida precisa de mais atenção agora?',
+      id: 'q2_energy',
+      question: 'Como está sua energia hoje?',
+      type: 'multiple-choice',
+      options: [
+        'Estou cheia de energia',
+        'Normal, como sempre',
+        'Um pouco cansada',
+        'Completamente exausta',
+      ],
+    },
+    {
+      id: 'q3_priority',
+      question: `Pensando no seu cuidado ${focus === 'daily' ? 'diário' : focus === 'weekly' ? 'semanal' : 'mensal'}, o que parece mais importante para você neste momento?`,
+      type: 'text',
+    },
+    {
+      id: 'q4_rorschach',
+      question:
+        'Olhe para esta imagem. O que você vê ou sente ao observá-la? Não há resposta certa ou errada, apenas o que vem à sua mente.',
+      type: 'rorschach',
+      imageUrl:
+        'https://img.usecurling.com/p/512/512?q=abstract%20inkblot%201&color=black',
+    },
+    {
+      id: 'q5_final_thought',
+      question:
+        'Há mais alguma coisa que você gostaria de me contar antes de criarmos sua trilha?',
       type: 'text',
     },
   ]
-  if (!API_KEY) return fallbackQuiz
+  if (!API_KEY) return fallbackQuiz.slice(0, 3)
 
-  const prompt = `Você é a 'Mãe Amiga', uma IA coach de bem-estar. Crie um quiz rápido de 3 perguntas para entender como uma mulher casada e sobrecarregada está se sentindo. As perguntas devem ser gentis e investigativas. Uma pergunta deve ser de múltipla escolha. Responda APENAS com um objeto JSON contendo uma chave "quiz" que é um array de objetos, cada um com "id", "question", "type" ('multiple-choice' ou 'text'), e "options" (um array de strings, se for multiple-choice).`
+  const prompt = `Você é a 'Mãe Amiga', uma IA coach de bem-estar. Crie um quiz de 5 a 7 perguntas para entender as necessidades de uma mulher casada, com foco em seu cuidado ${focus}. As perguntas devem ser gentis e investigativas. Inclua pelo menos uma pergunta de múltipla escolha. Se as respostas iniciais sugerirem estresse profundo ou confusão, inclua uma pergunta do tipo 'rorschach'. Responda APENAS com um objeto JSON contendo uma chave "quiz" que é um array de objetos, cada um com "id", "question", "type" ('multiple-choice', 'text', ou 'rorschach'), "options" (array de strings, se aplicável), e "imageUrl" (string, se for 'rorschach').`
 
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {
@@ -259,6 +287,7 @@ export const generateSelfCareQuiz = async (): Promise<QuizQuestion[]> => {
 
 export const generateSelfCarePlan = async (
   answers: Record<string, string>,
+  focus: SelfCareFocus,
 ): Promise<SelfCarePlan> => {
   const fallbackPlan: SelfCarePlan = {
     tone: 'amoras',
@@ -282,7 +311,7 @@ export const generateSelfCarePlan = async (
 
   const prompt = `Você é a 'Mãe Amiga'. Baseado nas respostas do quiz de uma mulher casada: ${JSON.stringify(
     answers,
-  )}, crie um plano de autocuidado. O plano deve ter um foco mensal, um semanal e um diário. Escolha um dos seguintes tons para sua resposta: 'amoras' (amoroso e gentil), 'reais duros' (direto e realista, mas com carinho), ou 'impactantes' (inspirador e motivacional). Responda APENAS com um objeto JSON com a estrutura: { "tone": "...", "monthlyFocus": { "title": "...", "description": "..." }, "weeklyFocus": { "title": "...", "description": "..." }, "dailyFocus": { "title": "...", "description": "..." } }.`
+  )}, e com um foco de cuidado ${focus}, crie um plano de autocuidado. O plano deve ter um foco mensal, um semanal e um diário, mas dê ênfase especial ao foco escolhido (${focus}). Escolha um dos seguintes tons para sua resposta: 'amoras' (amoroso e gentil), 'reais duros' (direto e realista, mas com carinho), ou 'impactantes' (inspirador e motivacional). Responda APENAS com um objeto JSON com a estrutura: { "tone": "...", "monthlyFocus": { "title": "...", "description": "..." }, "weeklyFocus": { "title": "...", "description": "..." }, "dailyFocus": { "title": "...", "description": "..." } }.`
 
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {
@@ -310,12 +339,13 @@ export const refineSelfCarePlan = async (
   previousPlan: SelfCarePlan,
   userFeedback: string,
   answers: Record<string, string>,
+  focus: SelfCareFocus,
 ): Promise<SelfCarePlan> => {
   if (!API_KEY) return previousPlan
 
   const prompt = `Você é a 'Mãe Amiga'. Eu te dei um plano de autocuidado baseado nas respostas: ${JSON.stringify(
     answers,
-  )}. O plano foi: ${JSON.stringify(
+  )} e com foco ${focus}. O plano foi: ${JSON.stringify(
     previousPlan,
   )}. Minha filha não gostou e disse: "${userFeedback}". Agora, refine o plano para alinhar melhor com o que ela precisa. Mantenha a mesma estrutura JSON e o mesmo tom do plano anterior. Responda APENAS com o objeto JSON refinado.`
 

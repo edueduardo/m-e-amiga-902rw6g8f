@@ -1,55 +1,74 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Loader2, HeartHandshake, CheckCircle } from 'lucide-react'
 import {
   generateSelfCareQuiz,
   generateSelfCarePlan,
   refineSelfCarePlan,
+  SelfCareFocus,
 } from '@/lib/motherAi'
-import { QuizQuestion, SelfCarePlan } from '@/types'
-import { SelfCareQuiz } from '@/components/SelfCareQuiz'
-import { SelfCarePlan as SelfCarePlanComponent } from '@/components/SelfCarePlan'
+import { QuizQuestion, SelfCarePlan as SelfCarePlanType } from '@/types'
+import { SelfCarePlan } from '@/components/SelfCarePlan'
+import { SelfCareQuizFlow } from '@/components/SelfCareQuizFlow'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 type InteractionState =
-  | 'idle'
+  | 'focusSelection'
   | 'loadingQuiz'
-  | 'quiz'
+  | 'quizFlow'
   | 'generatingPlan'
   | 'plan'
   | 'refiningPlan'
   | 'accepted'
 
 const CarePage = () => {
-  const [state, setState] = useState<InteractionState>('idle')
+  const [state, setState] = useState<InteractionState>('focusSelection')
   const [quiz, setQuiz] = useState<QuizQuestion[]>([])
-  const [plan, setPlan] = useState<SelfCarePlan | null>(null)
+  const [plan, setPlan] = useState<SelfCarePlanType | null>(null)
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [focus, setFocus] = useState<SelfCareFocus | null>(null)
 
-  const startQuiz = async () => {
+  const startQuiz = async (selectedFocus: SelfCareFocus) => {
     setState('loadingQuiz')
-    const questions = await generateSelfCareQuiz()
+    setFocus(selectedFocus)
+    const questions = await generateSelfCareQuiz(selectedFocus)
     setQuiz(questions)
-    setState('quiz')
+    setState('quizFlow')
   }
 
   const handleQuizSubmit = async (submittedAnswers: Record<string, string>) => {
+    if (!focus) return
     setState('generatingPlan')
     setAnswers(submittedAnswers)
-    const generatedPlan = await generateSelfCarePlan(submittedAnswers)
+    const generatedPlan = await generateSelfCarePlan(submittedAnswers, focus)
     setPlan(generatedPlan)
     setState('plan')
   }
 
   const handleRefinePlan = async (feedback: string) => {
-    if (!plan) return
+    if (!plan || !focus) return
     setState('refiningPlan')
-    const refinedPlan = await refineSelfCarePlan(plan, feedback, answers)
+    const refinedPlan = await refineSelfCarePlan(plan, feedback, answers, focus)
     setPlan(refinedPlan)
     setState('plan')
   }
 
   const handleAcceptPlan = () => {
     setState('accepted')
+  }
+
+  const resetFlow = () => {
+    setState('focusSelection')
+    setQuiz([])
+    setPlan(null)
+    setAnswers({})
+    setFocus(null)
   }
 
   const renderContent = () => {
@@ -68,12 +87,19 @@ const CarePage = () => {
             </p>
           </div>
         )
-      case 'quiz':
-        return <SelfCareQuiz questions={quiz} onSubmit={handleQuizSubmit} />
+      case 'quizFlow':
+        return (
+          <SelfCareQuizFlow
+            open={state === 'quizFlow'}
+            onOpenChange={(open) => !open && resetFlow()}
+            questions={quiz}
+            onSubmit={handleQuizSubmit}
+          />
+        )
       case 'plan':
         return (
           plan && (
-            <SelfCarePlanComponent
+            <SelfCarePlan
               plan={plan}
               onRefine={handleRefinePlan}
               onAccept={handleAcceptPlan}
@@ -89,25 +115,48 @@ const CarePage = () => {
               Sua trilha de autocuidado foi definida. Lembre-se de ser gentil
               consigo mesma nessa jornada. Um passo de cada vez.
             </p>
-            <Button onClick={() => setState('idle')}>
-              Começar uma nova trilha
-            </Button>
+            <Button onClick={resetFlow}>Começar uma nova trilha</Button>
           </div>
         )
-      case 'idle':
+      case 'focusSelection':
       default:
         return (
-          <div className="text-center space-y-4">
-            <HeartHandshake className="h-16 w-16 mx-auto text-primary" />
-            <h1 className="text-3xl font-bold">Vamos cuidar de você hoje?</h1>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Responda algumas perguntas rápidas e eu criarei uma trilha de
-              autocuidado personalizada, só para você.
-            </p>
-            <Button size="lg" onClick={startQuiz}>
-              Ver trilhas
-            </Button>
-          </div>
+          <Card className="w-full max-w-2xl mx-auto text-center">
+            <CardHeader>
+              <HeartHandshake className="h-16 w-16 mx-auto text-primary" />
+              <CardTitle className="text-3xl font-bold">
+                Vamos cuidar de você hoje?
+              </CardTitle>
+              <CardDescription className="max-w-xl mx-auto">
+                Escolha um foco para a sua trilha de autocuidado. Com base na
+                sua escolha, farei algumas perguntas para criar algo especial
+                para você.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid sm:grid-cols-3 gap-4">
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => startQuiz('daily')}
+              >
+                Foco na Rotina Diária
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => startQuiz('weekly')}
+              >
+                Foco na Semana
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => startQuiz('monthly')}
+              >
+                Foco no Mês
+              </Button>
+            </CardContent>
+          </Card>
         )
     }
   }

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { InstallAppDialog } from '@/components/InstallAppDialog'
-import { HeartPulse, Music } from 'lucide-react'
+import { HeartPulse, Music, MessageCircleQuestion } from 'lucide-react'
 import { SOSDialog } from '../SOSDialog'
 import { AidaIndicator } from './AidaIndicator'
 import { FreeSoundsDialog } from '../FreeSoundsDialog'
@@ -32,7 +32,7 @@ const carouselImages = [
 ]
 
 export const HeroSection = () => {
-  const { isAuthenticated, isSubscribed, abTestGroup } = useAuth()
+  const { isAuthenticated, isSubscribed } = useAuth()
   const [isInstallDialogOpen, setIsInstallDialogOpen] = useState(false)
   const [isSOSDialogOpen, setIsSOSDialogOpen] = useState(false)
   const [isFreeSoundsOpen, setIsFreeSoundsOpen] = useState(false)
@@ -43,14 +43,9 @@ export const HeroSection = () => {
     return '/signup'
   }
 
-  const headline =
-    abTestGroup === 'B'
-      ? 'Cansada de se sentir sobrecarregada? Encontre seu alívio aqui.'
-      : 'Sinta-se ouvida. Encontre seu equilíbrio.'
+  const headline = 'Sinta-se ouvida. Encontre seu equilíbrio.'
   const subheadline =
-    abTestGroup === 'B'
-      ? 'Mãe Amiga é o seu espaço de acolhimento 24/7. Desabafe por áudio e receba conselhos carinhosos de uma IA que te entende. Comece a se sentir melhor hoje.'
-      : 'Para você, mulher, que se sente sobrecarregada e anseia por um espaço seguro para desabafar. Receba o carinho e a sabedoria de uma mãe e melhor amiga, a qualquer hora.'
+    'Descubra também como ele pode pensar e reagir – uma ferramenta exclusiva para entender perspectivas masculinas.'
 
   return (
     <>
@@ -63,9 +58,10 @@ export const HeroSection = () => {
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
                   {headline}
                 </h1>
-                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  {subheadline}
-                </p>
+                <div className="flex items-center justify-center lg:justify-start gap-3 text-muted-foreground md:text-xl">
+                  <MessageCircleQuestion className="h-8 w-8 text-primary flex-shrink-0" />
+                  <p className="mx-auto max-w-[700px]">{subheadline}</p>
+                </div>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-start gap-4">
                 <Button asChild size="lg">

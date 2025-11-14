@@ -51,29 +51,26 @@ const navItems: NavItem[] = [
   },
   {
     href: '/app/virtual-man',
-    label: 'Homem Virtual',
+    label: 'Cabeça de Homem',
     icon: UserRound,
     description: (
       <div className="p-2 space-y-2 max-w-xs text-left">
         <p>
-          <strong className="font-semibold text-primary">Atenção:</strong> Já se
-          perguntou "o que ele está pensando?"
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Compreenda o que se passa na mente masculina de diferentes gerações.
         </p>
         <p>
-          <strong className="font-semibold text-primary">Interesse:</strong> O
-          Homem Virtual é um consultor de IA que te ajuda a entender a
-          perspectiva masculina em diversas situações, com base em perfis
-          geracionais.
+          <strong className="font-semibold text-primary">Interesse:</strong>{' '}
+          Selecione perfis como avô, marido ou filho e saiba como abordar
+          assuntos delicados.
         </p>
         <p>
-          <strong className="font-semibold text-primary">Desejo:</strong> Receba
-          insights sobre comunicação, comportamentos e expectativas para
-          antecipar reações e melhorar seus relacionamentos, seja com seu avô,
-          marido ou filho.
+          <strong className="font-semibold text-primary">Desejo:</strong>{' '}
+          Sinta-se mais preparada e confiante para conversas importantes.
         </p>
         <p>
-          <strong className="font-semibold text-primary">Ação:</strong> Consulte
-          o Homem Virtual e ganhe clareza nas suas interações!
+          <strong className="font-semibold text-primary">Ação:</strong>{' '}
+          Experimente agora essa novidade.
         </p>
       </div>
     ),

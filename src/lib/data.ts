@@ -70,6 +70,12 @@ export const testimonials: Testimonial[] = [
     avatarUrl: 'https://img.usecurling.com/ppl/medium?gender=female&seed=1',
   },
   {
+    name: 'Laura B.',
+    quote:
+      'O "Homem Virtual" foi uma virada de chave. Pude ensaiar uma conversa difícil com meu marido e, quando fomos conversar de verdade, eu estava muito mais calma e confiante.',
+    avatarUrl: 'https://img.usecurling.com/ppl/medium?gender=female&seed=4',
+  },
+  {
     name: 'Juliana M.',
     quote:
       'Eu estava me sentindo tão sozinha. Agora, tenho um ombro amigo a qualquer hora do dia. Fez toda a diferença na minha semana.',
@@ -80,6 +86,12 @@ export const testimonials: Testimonial[] = [
     quote:
       'É incrível como um conselho simples e carinhoso pode mudar sua perspectiva. Recomendo para todas as mulheres que se sentem sobrecarregadas.',
     avatarUrl: 'https://img.usecurling.com/ppl/medium?gender=female&seed=3',
+  },
+  {
+    name: 'Fernanda R.',
+    quote:
+      'Usei o consultor masculino para entender melhor meu filho adolescente. Ajudou a diminuir as brigas e a gente se aproximou mais. Foi surpreendente.',
+    avatarUrl: 'https://img.usecurling.com/ppl/medium?gender=female&seed=5',
   },
 ]
 

@@ -15,3 +15,19 @@ export const runFeedbackAnalysis = async () => {
 
   return { success: true, data }
 }
+
+export const getFeedbackAnalysisResults = async () => {
+  const { data, error } = await supabase
+    .from('virtual_man_feedback_analysis')
+    .select('*')
+    .order('analysis_date', { ascending: false })
+    .limit(1)
+    .single()
+
+  if (error) {
+    console.error('Error fetching feedback analysis results:', error)
+    return null
+  }
+
+  return data
+}

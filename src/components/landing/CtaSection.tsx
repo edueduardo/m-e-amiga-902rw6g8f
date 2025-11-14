@@ -16,14 +16,17 @@ export const CtaSection = () => {
       <div className="container px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center space-y-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Pronta para se sentir ouvida e acolhida?
+            Pronta para ter mais clareza sobre a mente dele?
           </h2>
           <p className="text-muted-foreground md:text-xl">
-            Dê o primeiro passo na sua jornada de autocuidado. Sua Mãe Amiga
-            está aqui, esperando por você.
+            Assine e tenha acesso ao consultor masculino virtual, além de todas
+            as outras ferramentas de acolhimento. O acesso a esta funcionalidade
+            está incluído em todos os nossos planos.
           </p>
           <Button asChild size="lg">
-            <Link to={getCtaLink()}>Começar meu acolhimento agora</Link>
+            <Link to={getCtaLink()}>
+              Assine e tenha acesso ao consultor masculino virtual
+            </Link>
           </Button>
         </div>
       </div>

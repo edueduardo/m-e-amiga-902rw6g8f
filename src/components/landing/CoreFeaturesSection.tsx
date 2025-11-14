@@ -4,9 +4,28 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Bot, BrainCircuit, HeartHandshake, Users, Flower2 } from 'lucide-react'
+import {
+  Bot,
+  BrainCircuit,
+  HeartHandshake,
+  Users,
+  Flower2,
+  UserRound,
+} from 'lucide-react'
 
 const coreFeatures = [
+  {
+    icon: UserRound,
+    title: 'Cabeça de Homem',
+    aida: {
+      attention:
+        'Compreenda o que se passa na mente masculina de diferentes gerações.',
+      interest:
+        'Selecione perfis como avô, marido ou filho e saiba como abordar assuntos delicados.',
+      desire: 'Sinta-se mais preparada e confiante para conversas importantes.',
+      action: 'Experimente agora essa novidade.',
+    },
+  },
   {
     icon: Bot,
     title: 'Coaching com IA',
@@ -87,7 +106,12 @@ export const CoreFeaturesSection = () => {
           </p>
         </div>
         <div className="mx-auto max-w-3xl">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full"
+            defaultValue="item-1"
+          >
             {coreFeatures.map((feature, index) => (
               <AccordionItem
                 value={`item-${index + 1}`}

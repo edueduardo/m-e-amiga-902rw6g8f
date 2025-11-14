@@ -15,6 +15,7 @@ import { VideoTestimonialsSection } from '@/components/landing/VideoTestimonials
 import { CaseStudiesSection } from '@/components/landing/CaseStudiesSection'
 import { UserReviewsSection } from '@/components/landing/UserReviewsSection'
 import { InteractiveDemo } from '@/components/landing/InteractiveDemo'
+import { InterestSection } from '@/components/landing/InterestSection'
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
       <HeroSection />
       <SocialProofSection />
       <PainPointsSection />
+      <InterestSection />
       <UseCasesSection />
       <HowItWorksSection />
       <WhyUsSection />

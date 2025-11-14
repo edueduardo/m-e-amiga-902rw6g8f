@@ -72,7 +72,7 @@ export const testimonials: Testimonial[] = [
   {
     name: 'Laura B.',
     quote:
-      'O "Homem Virtual" foi uma virada de chave. Pude ensaiar uma conversa difícil com meu marido e, quando fomos conversar de verdade, eu estava muito mais calma e confiante.',
+      'O "Cabeça de Homem" foi uma virada de chave. Pude ensaiar uma conversa difícil com meu marido e, quando fomos conversar de verdade, eu estava muito mais calma e confiante.',
     avatarUrl: 'https://img.usecurling.com/ppl/medium?gender=female&seed=4',
   },
   {

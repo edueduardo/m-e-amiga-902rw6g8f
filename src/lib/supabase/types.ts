@@ -337,6 +337,39 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          full_name: string | null
+          id: string
+          is_two_factor_enabled: boolean | null
+          phone_number: string | null
+          phone_verification_status:
+            | Database['public']['Enums']['phone_verification_status']
+            | null
+          updated_at: string | null
+        }
+        Insert: {
+          full_name?: string | null
+          id: string
+          is_two_factor_enabled?: boolean | null
+          phone_number?: string | null
+          phone_verification_status?:
+            | Database['public']['Enums']['phone_verification_status']
+            | null
+          updated_at?: string | null
+        }
+        Update: {
+          full_name?: string | null
+          id?: string
+          is_two_factor_enabled?: boolean | null
+          phone_number?: string | null
+          phone_verification_status?:
+            | Database['public']['Enums']['phone_verification_status']
+            | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       safety_flags: {
         Row: {
           id: string
@@ -690,6 +723,7 @@ export type Database = {
     Enums: {
       hunger_type: 'physical' | 'emotional'
       insight_kind: 'emotion' | 'trigger'
+      phone_verification_status: 'verified' | 'pending_email' | 'not_verified'
       safety_flag_level: 'green' | 'yellow' | 'red'
       technique_category:
         | 'breathing'
@@ -826,6 +860,7 @@ export const Constants = {
     Enums: {
       hunger_type: ['physical', 'emotional'],
       insight_kind: ['emotion', 'trigger'],
+      phone_verification_status: ['verified', 'pending_email', 'not_verified'],
       safety_flag_level: ['green', 'yellow', 'red'],
       technique_category: [
         'breathing',

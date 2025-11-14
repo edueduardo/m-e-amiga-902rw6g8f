@@ -19,14 +19,24 @@ import {
   Bot,
   BrainCircuit,
   Flower2,
+  UserRound,
+  Shield,
 } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { ReactNode } from 'react'
 
-const navItems = [
+interface NavItem {
+  href: string
+  label: string
+  icon: React.ElementType
+  description: ReactNode
+}
+
+const navItems: NavItem[] = [
   {
     href: '/app',
     label: 'Início',
@@ -40,22 +50,119 @@ const navItems = [
     description: 'Seu diário de voz. Desabafe e receba acolhimento.',
   },
   {
+    href: '/app/virtual-man',
+    label: 'Cabeça de Homem',
+    icon: UserRound,
+    description: (
+      <div className="p-2 space-y-2 max-w-xs text-left">
+        <p>
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Compreenda o que se passa na mente masculina de diferentes gerações.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Interesse:</strong>{' '}
+          Selecione perfis como avô, marido ou filho e saiba como abordar
+          assuntos delicados.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Desejo:</strong>{' '}
+          Sinta-se mais preparada e confiante para conversas importantes.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Ação:</strong>{' '}
+          Experimente agora essa novidade.
+        </p>
+      </div>
+    ),
+  },
+  {
     href: '/app/coaching',
     label: 'Coaching com IA',
     icon: Bot,
-    description: 'Sessões de coaching guiadas para seu desenvolvimento.',
+    description: (
+      <div className="p-2 space-y-2 max-w-xs text-left">
+        <p>
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Sinta-se ouvida e compreendida a qualquer momento.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Interesse:</strong> Com
+          as Sessões de Aconselhamento Guiadas por IA, você tem uma coach
+          pessoal disponível 24/7 para conversas profundas e exercícios
+          práticos.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Desejo:</strong>{' '}
+          Descubra clareza, encontre soluções para seus desafios e acompanhe seu
+          progresso em um ambiente seguro e confidencial. É como ter suporte
+          constante para seu bem-estar emocional.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Ação:</strong> Comece
+          sua sessão e inicie sua jornada de autodescoberta hoje mesmo!
+        </p>
+      </div>
+    ),
   },
   {
     href: '/app/self-knowledge',
     label: 'Autoconhecimento',
     icon: BrainCircuit,
-    description: 'Entenda seus padrões emocionais e receba insights.',
+    description: (
+      <div className="p-2 space-y-2 max-w-xs text-left">
+        <p>
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Desvende os segredos de suas emoções.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Interesse:</strong> A
+          Jornada de Autoconhecimento com Análise de Padrões Emocionais usa IA
+          para analisar suas interações, anotações e humor, revelando gatilhos e
+          padrões emocionais únicos.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Desejo:</strong>{' '}
+          Obtenha insights profundos sobre você, entenda o que te afeta e receba
+          recomendações personalizadas para cultivar um bem-estar duradouro.
+          Transforme como você se relaciona com suas emoções.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Ação:</strong> Explore
+          seus padrões emocionais e comece a construir uma vida mais
+          equilibrada!
+        </p>
+      </div>
+    ),
   },
   {
     href: '/app/care',
     label: 'Cuidar de mim',
     icon: HeartHandshake,
-    description: 'Crie trilhas de autocuidado personalizadas para você.',
+    description: (
+      <div className="p-2 space-y-2 max-w-xs text-left">
+        <p>
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Aprenda e cresça no seu ritmo, do seu jeito.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Interesse:</strong> As
+          Trilhas de Aprendizagem Adaptativas criam 'mini-workshops'
+          personalizados para você, ajustando-se dinamicamente às suas
+          necessidades e estilo de aprendizado.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Desejo:</strong> Receba
+          conteúdo relevante e eficaz para superar desafios específicos,
+          desenvolver novas habilidades e aprofundar seu conhecimento em tópicos
+          que realmente importam para você. Seu desenvolvimento pessoal nunca
+          foi tão personalizado.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Ação:</strong> Descubra
+          sua trilha de aprendizado e impulsione seu crescimento pessoal!
+        </p>
+      </div>
+    ),
   },
   {
     href: '/app/journal',
@@ -74,7 +181,30 @@ const navItems = [
     href: '/app/support-circle',
     label: 'Círculo de Apoio',
     icon: Users,
-    description: 'Conecte-se com outras mulheres em um espaço seguro.',
+    description: (
+      <div className="p-2 space-y-2 max-w-xs text-left">
+        <p>
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Conecte-se e compartilhe em uma comunidade que te entende.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Interesse:</strong> O
+          Círculo de Apoio aprimorado oferece salas de discussão focadas em
+          temas específicos, como 'Mães de Bebês' ou 'Desafios no
+          Relacionamento', com a IA auxiliando na moderação.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Desejo:</strong>{' '}
+          Encontre apoio, compartilhe experiências e crie laços com outras mães
+          em um ambiente seguro, acolhedor e construtivo. Sinta-se parte de algo
+          maior, onde sua voz é valorizada.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Ação:</strong>{' '}
+          Participe de uma sala temática e encontre sua tribo!
+        </p>
+      </div>
+    ),
   },
   {
     href: '/app/courses',
@@ -104,7 +234,30 @@ const navItems = [
     href: '/app/growth-garden',
     label: 'Jardim do Crescimento',
     icon: Flower2,
-    description: 'Veja seus objetivos e seu progresso florescerem.',
+    description: (
+      <div className="p-2 space-y-2 max-w-xs text-left">
+        <p>
+          <strong className="font-semibold text-primary">Atenção:</strong>{' '}
+          Transforme seu autocuidado em uma jornada divertida e gratificante.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Interesse:</strong> Com
+          o 'Jardim do Crescimento', suas metas e progresso são visualmente
+          representados por sementes que florescem e elementos que crescem à
+          medida que você avança em seu bem-estar.
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Desejo:</strong>{' '}
+          Mantenha-se motivado, celebre suas conquistas e veja seus esforços
+          florescerem de forma lúdica e recompensadora. Cada passo em direção ao
+          seu bem-estar é uma nova flor em seu jardim!
+        </p>
+        <p>
+          <strong className="font-semibold text-primary">Ação:</strong> Cultive
+          seu jardim e veja seu progresso florescer!
+        </p>
+      </div>
+    ),
   },
   {
     href: '/app/library',
@@ -123,6 +276,12 @@ const navItems = [
     label: 'Minha Jornada',
     icon: Award,
     description: 'Veja seu progresso e suas conquistas.',
+  },
+  {
+    href: '/app/admin',
+    label: 'Admin',
+    icon: Shield,
+    description: 'Painel de administração e análise de dados.',
   },
   {
     href: '/app/settings',
@@ -164,7 +323,11 @@ export const AppSidebar = () => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right">
-                <p>{item.description}</p>
+                {typeof item.description === 'string' ? (
+                  <p>{item.description}</p>
+                ) : (
+                  item.description
+                )}
               </TooltipContent>
             </Tooltip>
           ))}

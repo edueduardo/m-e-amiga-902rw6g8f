@@ -26,6 +26,36 @@ import {
   Users2,
 } from 'lucide-react'
 
+// Helper for daily deterministic randomness
+const getDaySeed = () => {
+  const today = new Date()
+  return (
+    today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
+  )
+}
+
+// A simple seeded shuffle function
+function seededShuffle<T>(array: T[], seed: number): T[] {
+  let currentIndex = array.length,
+    randomIndex
+  const newArray = [...array]
+
+  const random = () => {
+    const x = Math.sin(seed++) * 10000
+    return x - Math.floor(x)
+  }
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(random() * currentIndex)
+    currentIndex--
+    ;[newArray[currentIndex], newArray[randomIndex]] = [
+      newArray[randomIndex],
+      newArray[currentIndex],
+    ]
+  }
+  return newArray
+}
+
 export const testimonials: Testimonial[] = [
   {
     name: 'Ana P.',
@@ -93,12 +123,11 @@ const allMicroCourses: MicroCourse[] = [
   },
 ]
 
-const shuffleAndTake = <T>(arr: T[], count: number): T[] => {
-  return [...arr].sort(() => 0.5 - Math.random()).slice(0, count)
+export const getDynamicMicroCourses = (): MicroCourse[] => {
+  const seed = getDaySeed()
+  const shuffled = seededShuffle(allMicroCourses, seed)
+  return shuffled.slice(0, 10)
 }
-
-export const getDynamicMicroCourses = (): MicroCourse[] =>
-  shuffleAndTake(allMicroCourses, 10)
 
 export const microCourses: MicroCourse[] = getDynamicMicroCourses()
 
@@ -187,8 +216,10 @@ const allGuidedAudios: MeditationAudio[] = [
   },
 ]
 
-export const getDynamicMeditations = () => shuffleAndTake(allMeditations, 5)
-export const getDynamicGuidedAudios = () => shuffleAndTake(allGuidedAudios, 5)
+export const getDynamicMeditations = () =>
+  seededShuffle(allMeditations, getDaySeed())
+export const getDynamicGuidedAudios = () =>
+  seededShuffle(allGuidedAudios, getDaySeed() + 1)
 
 const allInspirations: Affirmation[] = [
   {
@@ -204,7 +235,9 @@ const allInspirations: Affirmation[] = [
 ]
 
 export const getDailyInspiration = (): Affirmation => {
-  return allInspirations[Math.floor(Math.random() * allInspirations.length)]
+  const seed = getDaySeed()
+  const index = seed % allInspirations.length
+  return allInspirations[index]
 }
 
 export const plannerTasks: PlannerTask[] = [
@@ -348,11 +381,12 @@ export const getDynamicLibraryResources = (): {
   resources: LibraryResource[]
   topics: string[]
 } => {
-  const activeTopics = shuffleAndTake(allTopics, 3)
+  const seed = getDaySeed()
+  const activeTopics = seededShuffle(allTopics, seed).slice(0, 3)
   const resources = allLibraryResources.filter((res) =>
     activeTopics.includes(res.topic),
   )
-  return { resources, topics: activeTopics }
+  return { resources: seededShuffle(resources, seed + 1), topics: activeTopics }
 }
 
 export const { resources: libraryResources, topics: libraryTopics } =
@@ -440,8 +474,9 @@ export const hooponoponoPractices: HooponoponoPractice[] = [
 ]
 
 export const getDailyHooponopono = (): HooponoponoPractice => {
-  // Returns the first practice consistently as per the requirement to remove time-based updates.
-  return hooponoponoPractices[0]
+  const seed = getDaySeed()
+  const index = seed % hooponoponoPractices.length
+  return hooponoponoPractices[index]
 }
 
 export const getRandomHooponopono = (): HooponoponoPractice => {
@@ -500,6 +535,16 @@ export const soothingSounds: SoothingSound[] = [
     duration_seconds: 280,
   },
 ]
+
+export const getDailyFreeContent = (): {
+  practice: HooponoponoPractice
+  sounds: SoothingSound[]
+} => {
+  const seed = getDaySeed()
+  const practice = hooponoponoPractices[seed % hooponoponoPractices.length]
+  const sounds = seededShuffle(soothingSounds, seed).slice(0, 3)
+  return { practice, sounds }
+}
 
 export const gamificationBadges: (GamificationBadge & {
   pointsThreshold: number

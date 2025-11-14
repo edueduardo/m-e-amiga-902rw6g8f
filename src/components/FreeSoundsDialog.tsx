@@ -6,11 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
-import {
-  getDailyHooponopono,
-  soothingSounds,
-  getRandomHooponopono,
-} from '@/lib/data'
+import { getDailyFreeContent, getRandomHooponopono } from '@/lib/data'
 import { HooponoponoPractice, SoothingSound } from '@/types'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { AidaTooltip } from './AidaTooltip'
@@ -30,17 +26,16 @@ export const FreeSoundsDialog = ({
   const [practice, setPractice] = useState<HooponoponoPractice | null>(null)
   const [sounds, setSounds] = useState<SoothingSound[]>([])
 
-  const fetchContent = () => {
-    setPractice(getRandomHooponopono())
-    const randomSounds = [...soothingSounds]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3)
-    setSounds(randomSounds)
+  const fetchDailyContent = () => {
+    const { practice: dailyPractice, sounds: dailySounds } =
+      getDailyFreeContent()
+    setPractice(dailyPractice)
+    setSounds(dailySounds)
   }
 
   useEffect(() => {
     if (open) {
-      fetchContent()
+      fetchDailyContent()
     }
   }, [open])
 
@@ -79,7 +74,11 @@ export const FreeSoundsDialog = ({
               </div>
             ))}
           </div>
-          <Button variant="outline" className="w-full" onClick={fetchContent}>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={fetchDailyContent}
+          >
             <RefreshCw className="mr-2 h-4 w-4" />
             Gerar novo conteúdo
           </Button>

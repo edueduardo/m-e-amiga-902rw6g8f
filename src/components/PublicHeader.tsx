@@ -112,7 +112,17 @@ export const PublicHeader = () => {
                 <Link to="/signup">Começar Grátis</Link>
               </Button>
             </nav>
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden flex items-center gap-2">
+              {isHomePage && (
+                <>
+                  <Button asChild variant="ghost" size="sm">
+                    <Link to="/login">Entrar</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm">
+                    <Link to="/pricing">Preço</Link>
+                  </Button>
+                </>
+              )}
               <ThemeToggle />
               <Button
                 variant="destructive"

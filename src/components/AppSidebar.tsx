@@ -49,10 +49,11 @@ const navItems = [
     description: 'Pratique a limpeza de memórias e cultive a paz.',
   },
   {
-    href: '/app/meditations',
-    label: 'Meditações',
+    href: '/app/music',
+    label: 'Músicas e Meditações',
     icon: Music,
-    description: 'Áudios para relaxar, focar e encontrar a calma.',
+    description:
+      'Áudios, meditações e suas playlists para relaxar e encontrar a calma.',
   },
   {
     href: '/app/support-circle',

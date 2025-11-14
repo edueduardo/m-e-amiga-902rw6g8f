@@ -269,6 +269,58 @@ export const weeklyChallenges: Challenge[] = [
     personalized_tip:
       'O objetivo não é concordar, mas sim compreender o ponto de vista do outro. Tente repetir o que ouviu com suas palavras para confirmar o entendimento.',
   },
+  {
+    id: 'chal5',
+    title: 'Hoʻoponopono para o Amor Próprio',
+    description:
+      'Direcione a prática do Hoʻoponopono para si mesma, cultivando a autoaceitação.',
+    theme: 'self-love',
+    steps: [
+      {
+        id: 'sl1',
+        description: 'Olhe-se no espelho e diga "Sinto muito"',
+        is_completed: false,
+      },
+      {
+        id: 'sl2',
+        description: 'Continue com "Por favor, me perdoe"',
+        is_completed: false,
+      },
+      {
+        id: 'sl3',
+        description: 'Finalize com "Eu te amo" e "Sou grata"',
+        is_completed: false,
+      },
+    ],
+    personalized_tip:
+      'Faça isso ao acordar. Perdoe-se por autojulgamentos e reconheça sua própria divindade e beleza. É um ato poderoso de reconciliação interna.',
+  },
+  {
+    id: 'chal6',
+    title: 'Hoʻoponopono para Relacionamentos',
+    description:
+      'Use o Hoʻoponopono para limpar memórias dolorosas em um relacionamento importante.',
+    theme: 'relationships',
+    steps: [
+      {
+        id: 'r1',
+        description: 'Pense na pessoa e na situação',
+        is_completed: false,
+      },
+      {
+        id: 'r2',
+        description: 'Repita as 4 frases focando no sentimento',
+        is_completed: false,
+      },
+      {
+        id: 'r3',
+        description: 'Observe a mudança na sua percepção',
+        is_completed: false,
+      },
+    ],
+    personalized_tip:
+      'Você não precisa falar com a pessoa. A limpeza acontece dentro de você, mudando a energia entre vocês e abrindo espaço para a harmonia.',
+  },
 ]
 
 const allLibraryResources: LibraryResource[] = [
@@ -348,40 +400,41 @@ export const hooponoponoPractices: HooponoponoPractice[] = [
   },
   {
     id: 'hoop3',
-    title: "A Gota d'Água",
-    phrase: 'Gota de Orvalho.',
+    title: 'Hoʻoponopono para Abundância',
+    phrase: 'Eu abençoo o dinheiro com amor. Sou grata pela abundância.',
     explanation:
-      'Esta é uma ferramenta de limpeza poderosa para apagar memórias. Imagine uma gota de orvalho caindo sobre a situação ou sentimento, purificando-o completamente.',
+      'Esta prática ajuda a limpar crenças limitantes sobre dinheiro e prosperidade, abrindo espaço para que a abundância flua em sua vida.',
     practice_tip:
-      'Pense na situação que te aflige e repita mentalmente "Gota de Orvalho". Visualize a pureza da gota limpando toda a negatividade associada.',
+      'Ao pagar uma conta ou receber dinheiro, repita esta frase. Mude sua relação com o dinheiro de medo ou escassez para uma de gratidão e amor.',
     aidaStory: {
       attention:
-        'A ansiedade antes de dormir tomava conta de Sofia, com mil pensamentos acelerados.',
+        'Clara sempre se preocupava com as contas no final do mês, sentindo um nó no estômago.',
       interest:
-        'Uma amiga lhe contou sobre uma técnica de visualização simples, usando apenas duas palavras.',
+        'Ela descobriu que o Hoʻoponopono poderia ser usado para curar sua relação com o dinheiro.',
       desire:
-        'Ela ansiava por uma noite de sono tranquila, onde sua mente pudesse finalmente descansar e se acalmar.',
+        'Ela sonhava em sentir paz e segurança financeira, vendo o dinheiro como um fluxo de energia e não como uma fonte de estresse.',
       action:
-        'Naquela noite, ao invés de lutar contra os pensamentos, ela os imaginou sendo tocados por uma "Gota de Orvalho", que os dissolvia suavemente.',
+        'Ao pagar o aluguel, em vez de sentir pesar, ela mentalizou: "Eu abençoo este dinheiro com amor. Sou grata pela abundância que me permite ter um lar."',
     },
   },
   {
     id: 'hoop4',
-    title: 'Chave de Luz',
-    phrase: 'Chave de Luz.',
+    title: 'Hoʻoponopono para Saúde',
+    phrase:
+      'Meu corpo, sinto muito. Por favor, me perdoe. Eu te amo. Sou grata.',
     explanation:
-      'Use esta ferramenta para "acender a luz" em qualquer situação de escuridão, conflito ou confusão. É um interruptor para as memórias que estão tocando.',
+      'Direcione as quatro frases para o seu corpo, pedindo perdão por negligência, julgamentos ou maus hábitos, e expressando amor e gratidão por sua saúde.',
     practice_tip:
-      'Quando se sentir em uma situação negativa ou em um impasse, simplesmente pense ou diga "Chave de Luz". Imagine um interruptor sendo ligado e a luz preenchendo a situação.',
+      'Coloque as mãos sobre uma parte do seu corpo que precise de cura ou atenção e repita as frases com sinceridade. Agradeça seu corpo por tudo que ele faz por você.',
     aidaStory: {
       attention:
-        'Marta se sentia paralisada pela indecisão, com duas opções importantes à sua frente e sem saber qual caminho seguir.',
+        'Joana vivia com uma dor crônica nas costas que a limitava e frustrava diariamente.',
       interest:
-        "Ela descobriu uma ferramenta do Ho'oponopono para trazer clareza a momentos de confusão, como ligar uma luz em um quarto escuro.",
+        'Ela leu que poderia "conversar" com seu corpo usando o Hoʻoponopono para promover a cura.',
       desire:
-        'Ela queria mais do que tudo sentir a certeza e a paz de uma decisão clara, sem o tormento da dúvida.',
+        'Ela desejava mais do que tudo um dia sem dor, sentindo-se em harmonia e paz com seu próprio corpo.',
       action:
-        'Respirando fundo, ela focou na sua confusão e mentalizou: "Chave de Luz", pedindo que a clareza iluminasse sua mente.',
+        'Deitada na cama, ela colocou as mãos sobre as costas e sussurrou: "Minhas costas, sinto muito por toda a tensão que coloquei em vocês. Por favor, me perdoem. Eu amo vocês. Sou grata por me sustentarem."',
     },
   },
 ]
@@ -405,26 +458,49 @@ export const soothingSounds: SoothingSound[] = [
     id: 'sound1',
     name: 'Ondas Suaves da Praia',
     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',
+    duration_seconds: 180,
   },
   {
     id: 'sound2',
     name: 'Chuva Leve na Floresta',
     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3',
+    duration_seconds: 240,
   },
   {
     id: 'sound3',
     name: 'Som Branco (White Noise)',
     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    duration_seconds: 300,
   },
   {
     id: 'sound4',
     name: 'Canto dos Pássaros',
     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+    duration_seconds: 210,
   },
   {
     id: 'sound5',
     name: 'Música Clássica Calma',
     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+    duration_seconds: 420,
+  },
+  {
+    id: 'sound6',
+    name: 'Lareira Crepitante',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+    duration_seconds: 360,
+  },
+  {
+    id: 'sound7',
+    name: 'Tigelas Tibetanas',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
+    duration_seconds: 600,
+  },
+  {
+    id: 'sound8',
+    name: 'Melodia de Piano Relaxante',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+    duration_seconds: 280,
   },
 ]
 

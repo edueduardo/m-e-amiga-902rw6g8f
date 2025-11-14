@@ -61,7 +61,7 @@ export const HeroSection = () => {
                   onClick={() => setIsFreeSoundsOpen(true)}
                 >
                   <Music className="mr-2 h-5 w-5" />
-                  Sons e músicas de Ho'oponopono
+                  Músicas Ho'oponopono
                 </Button>
                 <Button
                   variant="destructive"

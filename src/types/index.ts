@@ -151,6 +151,8 @@ export interface Challenge {
     | 'organization'
     | 'self-care'
     | 'hooponopono'
+    | 'self-love'
+    | 'relationships'
   steps: ChallengeStep[]
   personalized_tip: string
 }
@@ -191,6 +193,7 @@ export interface SoothingSound {
   id: string
   name: string
   url: string
+  duration_seconds: number
 }
 
 export interface GamificationBadge {
@@ -227,4 +230,11 @@ export interface CommunityChallenge {
   unit: string
   rewardPoints: number
   endDate: string
+}
+
+export interface Playlist {
+  id: string
+  name: string
+  trackIds: string[]
+  created_at: string
 }

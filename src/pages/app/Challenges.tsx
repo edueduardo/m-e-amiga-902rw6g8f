@@ -38,7 +38,7 @@ const ChallengeCard = ({
           : step,
       )
       const allCompleted = updatedSteps.every((step) => step.is_completed)
-      if (allCompleted) {
+      if (allCompleted && !prevChallenge.steps.every((s) => s.is_completed)) {
         addPoints(50, `Completou o desafio: ${challenge.title}`)
       }
       return { ...prevChallenge, steps: updatedSteps }

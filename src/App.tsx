@@ -9,6 +9,7 @@ import { SupportCircleProvider } from './contexts/SupportCircleContext'
 import { AiResponseProvider } from './contexts/AiResponseContext'
 import { UserPreferencesProvider } from './contexts/UserPreferencesContext'
 import { GamificationProvider } from './contexts/GamificationContext'
+import { PlaylistProvider } from './contexts/PlaylistContext'
 
 import Layout from './components/Layout'
 import { AppLayout } from './components/AppLayout'
@@ -31,7 +32,7 @@ import CoursesPage from './pages/app/Courses'
 import CourseDetailPage from './pages/app/CourseDetail'
 import SummaryPage from './pages/app/Summary'
 import SettingsPage from './pages/app/Settings'
-import MeditationsPage from './pages/app/Meditations'
+import MusicPage from './pages/app/Music'
 import PlannerPage from './pages/app/Planner'
 import ChallengesPage from './pages/app/Challenges'
 import CommunityChallengesPage from './pages/app/CommunityChallenges'
@@ -88,7 +89,9 @@ const App = () => {
                         <SupportCircleProvider>
                           <AiResponseProvider>
                             <GamificationProvider>
-                              <AppLayout />
+                              <PlaylistProvider>
+                                <AppLayout />
+                              </PlaylistProvider>
                             </GamificationProvider>
                           </AiResponseProvider>
                         </SupportCircleProvider>
@@ -101,7 +104,7 @@ const App = () => {
                   <Route path="care" element={<CarePage />} />
                   <Route path="response" element={<ResponsePage />} />
                   <Route path="journal" element={<HooponoponoJournalPage />} />
-                  <Route path="meditations" element={<MeditationsPage />} />
+                  <Route path="music" element={<MusicPage />} />
                   <Route
                     path="support-circle"
                     element={<SupportCirclePage />}

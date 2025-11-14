@@ -1,7 +1,7 @@
 import { HeroSection } from '@/components/landing/HeroSection'
 import { PainPointsSection } from '@/components/landing/PainPointsSection'
 import { HowItWorksSection } from '@/components/landing/HowItWorksSection'
-import { AppFeaturesGrid } from '@/components/landing/AppFeaturesGrid'
+import { CoreFeaturesSection } from '@/components/landing/CoreFeaturesSection'
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection'
 import { PricingSection } from '@/components/landing/PricingSection'
 import { EthicalNoticeSection } from '@/components/landing/EthicalNoticeSection'
@@ -13,7 +13,7 @@ const Index = () => {
       <HeroSection />
       <PainPointsSection />
       <HowItWorksSection />
-      <AppFeaturesGrid />
+      <CoreFeaturesSection />
       <HooponoponoDesireSection />
       <TestimonialsSection />
       <PricingSection />

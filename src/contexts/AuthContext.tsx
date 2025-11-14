@@ -5,6 +5,7 @@ import {
   useMemo,
   useCallback,
   useEffect,
+  useContext,
 } from 'react'
 import { UserProfile } from '@/types'
 import { getOrAssignABTestGroup, ABTestGroup } from '@/lib/abTesting'
@@ -45,8 +46,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (stored) {
         const savedState: AuthState = JSON.parse(stored)
         setAuthState(savedState)
-        setAbTestGroup(getOrAssignABTestGroup())
       }
+      setAbTestGroup(getOrAssignABTestGroup())
     } catch (error) {
       console.error('Failed to parse auth state', error)
       localStorage.removeItem(AUTH_KEY)
@@ -73,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     setAuthState({ user: null, isSubscribed: false })
     localStorage.removeItem(AUTH_KEY)
-    setAbTestGroup(null)
+    // We keep the AB test group even on logout for consistency
   }, [])
 
   const updateUser = useCallback((data: Partial<UserProfile>) => {
@@ -148,4 +149,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
 }

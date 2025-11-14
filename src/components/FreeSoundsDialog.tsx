@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
-import { getDailyFreeContent, getRandomHooponopono } from '@/lib/data'
+import { getDailyFreeContent } from '@/lib/data'
 import { HooponoponoPractice, SoothingSound } from '@/types'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { AidaTooltip } from './AidaTooltip'

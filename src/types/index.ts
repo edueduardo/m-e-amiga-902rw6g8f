@@ -395,6 +395,15 @@ export type VirtualManProfile =
   | 'Amigo Sincero'
   | 'Chefe Experiente'
 
+export interface AiReference {
+  type: string
+  title: string
+  author?: string | null
+  publisher?: string | null
+  url?: string | null
+  date?: string | null
+}
+
 export interface VirtualManAiResponse {
   disclaimer: string
   communication: string
@@ -402,6 +411,7 @@ export interface VirtualManAiResponse {
   expectations_insecurities: string
   family_situations: string
   practical_tips: string[]
+  references?: AiReference[]
 }
 
 export interface VirtualManInteraction {

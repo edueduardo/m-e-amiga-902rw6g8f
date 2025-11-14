@@ -24,6 +24,8 @@ import {
   Lightbulb,
   ChevronDown,
   ChevronUp,
+  BookText,
+  ExternalLink,
 } from 'lucide-react'
 import { FeedbackButtons } from '../FeedbackButtons'
 import { useVirtualMan } from '@/contexts/VirtualManContext'
@@ -107,7 +109,10 @@ export const AiResponseDisplay = ({
 
             <Accordion
               type="multiple"
-              defaultValue={thematicCategories.map((c) => c.key)}
+              defaultValue={[
+                ...thematicCategories.map((c) => c.key),
+                'references',
+              ]}
               className="w-full"
             >
               {thematicCategories.map(({ key, title, icon: Icon }) => (
@@ -123,6 +128,44 @@ export const AiResponseDisplay = ({
                   </AccordionContent>
                 </AccordionItem>
               ))}
+              {response.references && response.references.length > 0 && (
+                <AccordionItem value="references">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <BookText className="h-5 w-5 text-primary" />
+                      <span className="font-semibold">
+                        Fontes e Referências
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="prose dark:prose-invert max-w-none text-sm">
+                    <ul className="list-none p-0 space-y-4">
+                      {response.references.map((ref, index) => (
+                        <li key={index} className="p-0 m-0">
+                          <p className="font-bold m-0">{ref.title}</p>
+                          <p className="text-muted-foreground m-0">
+                            {ref.author && `${ref.author}. `}
+                            {ref.publisher && `${ref.publisher}. `}
+                            {ref.date && `(${ref.date}). `}
+                            <span className="capitalize">{ref.type}.</span>
+                          </p>
+                          {ref.url && (
+                            <a
+                              href={ref.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary break-all inline-flex items-center gap-1"
+                            >
+                              {ref.url}
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
             </Accordion>
 
             <Card className="bg-primary/5 border-primary/20">

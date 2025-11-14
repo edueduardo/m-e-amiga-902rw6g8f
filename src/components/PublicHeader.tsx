@@ -124,4 +124,18 @@ export const PublicHeader = () => {
                 </>
               )}
               <ThemeToggle />
-              <
+              <Button
+                variant="destructive"
+                size="icon"
+                onClick={() => setIsSOSDialogOpen(true)}
+              >
+                <HeartPulse className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <SOSDialog open={isSOSDialogOpen} onOpenChange={setIsSOSDialogOpen} />
+    </>
+  )
+}

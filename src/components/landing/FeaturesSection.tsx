@@ -5,6 +5,7 @@ import {
   Heart,
   MessageSquareHeart,
   Leaf,
+  Users,
 } from 'lucide-react'
 
 const features = [
@@ -17,6 +18,11 @@ const features = [
     icon: Heart,
     title: 'Respostas carinhosas',
     description: 'Receba o acolhimento e o conselho de uma mãe amiga.',
+  },
+  {
+    icon: Users,
+    title: 'Círculo de Apoio',
+    description: 'Conecte-se anonimamente com outras mulheres como você.',
   },
   {
     icon: Leaf,

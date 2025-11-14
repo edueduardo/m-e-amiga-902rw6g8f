@@ -3,11 +3,13 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { InstallAppDialog } from '@/components/InstallAppDialog'
-import { Download } from 'lucide-react'
+import { Download, HeartPulse } from 'lucide-react'
+import { SOSDialog } from '../SOSDialog'
 
 export const HeroSection = () => {
   const { isAuthenticated, isSubscribed } = useAuth()
   const [isInstallDialogOpen, setIsInstallDialogOpen] = useState(false)
+  const [isSOSDialogOpen, setIsSOSDialogOpen] = useState(false)
 
   const getCtaLink = () => {
     if (isAuthenticated && isSubscribed) return '/app'
@@ -43,12 +45,12 @@ export const HeroSection = () => {
                 Ver como funciona
               </Button>
               <Button
-                variant="default"
+                variant="destructive"
                 size="lg"
-                onClick={() => setIsInstallDialogOpen(true)}
+                onClick={() => setIsSOSDialogOpen(true)}
               >
-                <Download className="mr-2 h-5 w-5" />
-                Baixar Aplicativo
+                <HeartPulse className="mr-2 h-5 w-5" />
+                Botão SOS
               </Button>
             </div>
           </div>
@@ -58,6 +60,7 @@ export const HeroSection = () => {
         open={isInstallDialogOpen}
         onOpenChange={setIsInstallDialogOpen}
       />
+      <SOSDialog open={isSOSDialogOpen} onOpenChange={setIsSOSDialogOpen} />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { BrainCircuit, Mic, HandHeart } from 'lucide-react'
+import { BrainCircuit, Mic, HandHeart, Users } from 'lucide-react'
 
 const steps = [
   {
@@ -17,6 +17,11 @@ const steps = [
     title: 'Você recebe carinho',
     description: 'Conselho doce e prático.',
   },
+  {
+    icon: Users,
+    title: 'Você se conecta',
+    description: 'Compartilhe e receba apoio de outras mulheres.',
+  },
 ]
 
 export const HowItWorksSection = () => {
@@ -31,7 +36,7 @@ export const HowItWorksSection = () => {
             Como funciona
           </h2>
         </div>
-        <div className="mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-3 lg:gap-12">
+        <div className="mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-4 lg:gap-8">
           {steps.map((step, index) => (
             <Card
               key={index}

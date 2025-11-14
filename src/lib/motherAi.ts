@@ -1,5 +1,5 @@
 import { ABTestGroup } from './abTesting'
-import { QuizQuestion, SelfCarePlan } from '@/types'
+import { QuizQuestion, SelfCarePlan, VoiceEntry } from '@/types'
 
 const API_URL = 'https://api.openai.com/v1'
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -9,7 +9,7 @@ export type SelfCareFocus = 'daily' | 'weekly' | 'monthly'
 interface EmotionalProfile {
   primaryEmotion: string
   secondaryEmotions: string[]
-  intensity: 'baixa' | 'média' | 'alta'
+  intensity: 'baixa' | 'média' | 'alta' | 'crítica'
   underlyingNeeds: string[]
   keyConcerns: string[]
 }
@@ -21,6 +21,7 @@ interface PracticalAdvice {
 export interface MotherReplyPayload {
   reply: string
   mood_label: string
+  professional_help_suggestion?: string
 }
 
 /**
@@ -62,7 +63,7 @@ export const transcribeAudio = async (audioFile: File): Promise<string> => {
 const performEmotionalAnalysis = async (
   transcript: string,
 ): Promise<EmotionalProfile | null> => {
-  const prompt = `Você é uma IA especialista em psicologia. Analise o texto a seguir e identifique o perfil emocional. Responda APENAS com um objeto JSON com a seguinte estrutura: { "primaryEmotion": "string", "secondaryEmotions": ["string"], "intensity": "baixa" | "média" | "alta", "underlyingNeeds": ["string"], "keyConcerns": ["string"] }. Emoções válidas: triste, cansada, ansiosa, irritada, feliz, neutra. Texto: "${transcript}"`
+  const prompt = `Você é uma IA especialista em psicologia. Analise o texto a seguir e identifique o perfil emocional. Se houver sinais de sofrimento persistente, desesperança ou risco, classifique a intensidade como 'crítica'. Responda APENAS com um objeto JSON com a seguinte estrutura: { "primaryEmotion": "string", "secondaryEmotions": ["string"], "intensity": "baixa" | "média" | "alta" | "crítica", "underlyingNeeds": ["string"], "keyConcerns": ["string"] }. Emoções válidas: triste, cansada, ansiosa, irritada, feliz, neutra. Texto: "${transcript}"`
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {
       method: 'POST',
@@ -117,7 +118,7 @@ export const generateMotherReply = async (
   transcript: string,
   abTestGroup: ABTestGroup = 'A',
 ): Promise<MotherReplyPayload> => {
-  const fallbackReply = {
+  const fallbackReply: MotherReplyPayload = {
     reply:
       'Minha filha, tive um probleminha para processar sua mensagem, mas saiba que estou aqui com você em pensamento. Tente me contar de novo daqui a pouquinho.',
     mood_label: 'neutra',
@@ -129,6 +130,12 @@ export const generateMotherReply = async (
 
   const practicalAdvice = await generatePracticalAdvice(emotionalProfile)
   if (!practicalAdvice) return fallbackReply
+
+  let professionalHelpSuggestion: string | undefined
+  if (emotionalProfile.intensity === 'crítica') {
+    professionalHelpSuggestion =
+      'Filha, sinto em suas palavras um peso muito grande. Quero te lembrar que, além do meu carinho, a ajuda de um profissional, como um psicólogo, pode te oferecer ferramentas valiosas para atravessar essa fase. Cuidar da sua saúde mental é um ato de amor. Se você se sentir confortável, procurar um especialista pode ser um passo importante para o seu bem-estar.'
+  }
 
   let systemPrompt: string
   let userPrompt: string
@@ -170,6 +177,7 @@ export const generateMotherReply = async (
     return {
       reply: data.choices[0]?.message?.content,
       mood_label: emotionalProfile.primaryEmotion || 'neutra',
+      professional_help_suggestion: professionalHelpSuggestion,
     }
   } catch (error) {
     console.error('Error generating final reply:', error)
@@ -300,7 +308,7 @@ export const generateSelfCarePlan = async (
 
   const prompt = `Você é a 'Mãe Amiga'. Baseado nas respostas do quiz de uma mulher casada: ${JSON.stringify(
     answers,
-  )}, e com um foco de cuidado ${focus}, crie um plano de autocuidado. O plano deve ter um foco mensal, um semanal e um diário, mas dê ênfase especial ao foco escolhido (${focus}). Escolha um dos seguintes tons para sua resposta: 'amoras' (amoroso e gentil), 'reais duros' (direto e realista, mas com carinho), ou 'impactantes' (inspirador e motivacional). Responda APENAS com um objeto JSON com a estrutura: { "tone": "...", "monthlyFocus": { "title": "...", "description": "..." }, "weeklyFocus": { "title": "...", "description": "..." }, "dailyFocus": { "title": "...", "description": "..." } }.`
+  )}, e com um foco de cuidado ${focus}, crie um plano de autocuidado. O plano deve ter um foco mensal, um semanal e um diário, mas dê ênfase especial ao foco escolhido (${focus}). Analise as respostas em busca de sinais de sofrimento persistente. Se identificar, inclua uma chave "professional_help_suggestion" com uma sugestão gentil para procurar ajuda profissional. Escolha um dos seguintes tons para sua resposta: 'amoras' (amoroso e gentil), 'reais duros' (direto e realista, mas com carinho), ou 'impactantes' (inspirador e motivacional). Responda APENAS com um objeto JSON com a estrutura: { "tone": "...", "monthlyFocus": { "title": "...", "description": "..." }, "weeklyFocus": { "title": "...", "description": "..." }, "dailyFocus": { "title": "...", "description": "..." }, "professional_help_suggestion"?: "string" }.`
 
   try {
     const response = await fetch(`${API_URL}/chat/completions`, {

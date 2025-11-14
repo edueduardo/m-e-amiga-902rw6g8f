@@ -43,6 +43,7 @@ export interface VoiceEntry {
   mother_reply: string
   audio_url?: string
   feedback?: Feedback
+  professional_help_suggestion?: string
 }
 
 export interface WeeklySummary {
@@ -88,4 +89,22 @@ export interface SelfCarePlan {
   monthlyFocus: SelfCareAction
   weeklyFocus: SelfCareAction
   dailyFocus: SelfCareAction
+  professional_help_suggestion?: string
+}
+
+export interface SupportReply {
+  id: string
+  postId: string
+  authorAlias: string
+  content: string
+  created_at: string
+}
+
+export interface SupportPost {
+  id: string
+  authorAlias: string
+  title: string
+  content: string
+  created_at: string
+  replies: SupportReply[]
 }

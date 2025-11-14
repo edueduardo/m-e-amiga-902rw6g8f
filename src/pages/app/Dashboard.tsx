@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Mic, HeartHandshake, Calendar } from 'lucide-react'
+import { ArrowRight, Mic, HeartHandshake, Calendar, Users } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
@@ -68,6 +68,24 @@ const DashboardPage = () => {
               <Link to="/app/care">
                 <HeartHandshake className="mr-2 h-4 w-4" />
                 Ver trilhas
+                <ArrowRight className="ml-auto h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Círculo de Apoio</CardTitle>
+            <CardDescription>
+              Conecte-se com outras mulheres de forma anônima.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild variant="outline">
+              <Link to="/app/support-circle">
+                <Users className="mr-2 h-4 w-4" />
+                Acessar círculo
                 <ArrowRight className="ml-auto h-4 w-4" />
               </Link>
             </Button>

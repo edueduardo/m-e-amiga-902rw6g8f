@@ -8,12 +8,14 @@ import {
   HeartHandshake,
   Home,
   MessageSquare,
+  Users,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/app', label: 'Início', icon: Home },
   { href: '/app/conversations', label: 'Conversas', icon: MessageSquare },
   { href: '/app/care', label: 'Cuidar de mim', icon: HeartHandshake },
+  { href: '/app/support-circle', label: 'Círculo de Apoio', icon: Users },
   { href: '/app/courses', label: 'Cursos', icon: BookHeart },
   { href: '/app/summary', label: 'Resumo', icon: Calendar },
   { href: '/app/settings', label: 'Configurações', icon: Cog },

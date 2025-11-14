@@ -4,6 +4,7 @@ import {
   MicroCourse,
   VoiceEntry,
   WeeklySummary,
+  SupportPost,
 } from '@/types'
 import { format, subDays } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -169,3 +170,54 @@ export const weeklySummary: WeeklySummary = {
   summary_text:
     'Filha, olhando para a sua semana, percebi que a emoção que mais apareceu foi a de se sentir **cansada**. Parece que foram dias de muito desgaste, não é? Seu corpo e sua mente estão pedindo um pouco de calma. Não se esqueça de que descansar não é um luxo, é uma necessidade. Lembre-se sempre: estou aqui para você, orgulhosa de cada passo seu. Com amor, Mãe Amiga.',
 }
+
+export const anonymousAliases = [
+  'Girassol Sereno',
+  'Lua Crescente',
+  'Estrela Guia',
+  'Rio Calmo',
+  'Borboleta Azul',
+  'Orquídea Rara',
+  'Pérola do Mar',
+  'Brisa Suave',
+  'Aurora Boreal',
+  'Colibri Veloz',
+]
+
+export const supportPosts: SupportPost[] = [
+  {
+    id: 'post-1',
+    authorAlias: 'Girassol Sereno',
+    title: 'Me sentindo culpada por querer um tempo só para mim',
+    content:
+      'Meninas, mais alguém se sente assim? Eu amo minha família mais que tudo, mas às vezes eu só queria sumir por umas duas horas, sem ter que dar satisfação. Só de pensar nisso já me sinto a pior mãe e esposa do mundo. Como vocês lidam com isso?',
+    created_at: subDays(today, 1).toISOString(),
+    replies: [
+      {
+        id: 'reply-1-1',
+        postId: 'post-1',
+        authorAlias: 'Brisa Suave',
+        content:
+          'Nossa, eu sinto EXATAMENTE a mesma coisa. Você não está sozinha! Meu terapeuta disse que isso é super normal e que precisamos desses "respiros" para sermos melhores para nós mesmas e para eles.',
+        created_at: subDays(today, 1).toISOString(),
+      },
+      {
+        id: 'reply-1-2',
+        postId: 'post-1',
+        authorAlias: 'Lua Crescente',
+        content:
+          'Super normal! Eu comecei a "agendar" meu tempo sozinha. Uma vez por semana, saio para caminhar por 40 minutos. No começo foi difícil, mas agora todo mundo em casa já se acostumou e respeita. Tenta começar com pouco tempo!',
+        created_at: new Date().toISOString(),
+      },
+    ],
+  },
+  {
+    id: 'post-2',
+    authorAlias: 'Estrela Guia',
+    title: 'Como conversar com o marido sobre a divisão de tarefas?',
+    content:
+      'Eu trabalho fora, cuido da casa, das crianças... e meu marido parece que não enxerga. Ele ajuda quando eu peço, mas eu queria que ele tivesse mais iniciativa. Já tentei conversar, mas vira briga. Alguma dica de como abordar isso sem parecer que estou reclamando?',
+    created_at: subDays(today, 2).toISOString(),
+    replies: [],
+  },
+]

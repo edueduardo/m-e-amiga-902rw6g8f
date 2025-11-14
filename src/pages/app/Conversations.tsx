@@ -15,6 +15,7 @@ import {
   Square,
   Upload,
   MessageSquareHeart,
+  AlertTriangle,
 } from 'lucide-react'
 import { VoiceEntry, Feedback } from '@/types'
 import { format } from 'date-fns'
@@ -28,6 +29,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { FeedbackButtons } from '@/components/FeedbackButtons'
 import { useConversations } from '@/contexts/ConversationsContext'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 const moodColors: { [key: string]: string } = {
   triste: 'bg-blue-100 text-blue-800',
@@ -120,10 +122,11 @@ const ConversationsPage = () => {
     }
 
     setStatus('Preparando uma resposta com carinho...')
-    const { reply: motherReply, mood_label } = await generateMotherReply(
-      transcript,
-      abTestGroup || 'A',
-    )
+    const {
+      reply: motherReply,
+      mood_label,
+      professional_help_suggestion,
+    } = await generateMotherReply(transcript, abTestGroup || 'A')
 
     const entry: VoiceEntry = {
       id: new Date().toISOString(),
@@ -133,6 +136,7 @@ const ConversationsPage = () => {
       mother_reply: motherReply,
       audio_url: audioURL || undefined,
       feedback: { rating: null },
+      professional_help_suggestion,
     }
 
     addEntry(entry)
@@ -261,6 +265,15 @@ const ConversationsPage = () => {
                         <p className="text-sm whitespace-pre-wrap">
                           {entry.mother_reply}
                         </p>
+                        {entry.professional_help_suggestion && (
+                          <Alert className="mt-4 bg-yellow-100 border-yellow-300 text-yellow-800">
+                            <AlertTriangle className="h-4 w-4 !text-yellow-800" />
+                            <AlertTitle>Uma observação importante</AlertTitle>
+                            <AlertDescription>
+                              {entry.professional_help_suggestion}
+                            </AlertDescription>
+                          </Alert>
+                        )}
                         <FeedbackButtons
                           entryId={entry.id}
                           initialFeedback={entry.feedback}

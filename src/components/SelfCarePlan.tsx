@@ -11,8 +11,14 @@ import {
 } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
-import { ThumbsUp, ThumbsDown, MessageSquareQuote } from 'lucide-react'
+import {
+  ThumbsUp,
+  ThumbsDown,
+  MessageSquareQuote,
+  AlertTriangle,
+} from 'lucide-react'
 import { SelfCareFocus } from '@/lib/motherAi'
+import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 
 interface SelfCarePlanProps {
   plan: SelfCarePlanType
@@ -73,6 +79,16 @@ export const SelfCarePlan = ({
           {toneMap[plan.tone]}
         </Badge>
       </div>
+
+      {plan.professional_help_suggestion && (
+        <Alert className="bg-yellow-100 border-yellow-300 text-yellow-800">
+          <AlertTriangle className="h-4 w-4 !text-yellow-800" />
+          <AlertTitle>Uma observação importante</AlertTitle>
+          <AlertDescription>
+            {plan.professional_help_suggestion}
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Card>
         <CardHeader>

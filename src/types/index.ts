@@ -67,3 +67,24 @@ export interface UserProfile {
   phone_verification_status?: PhoneVerificationStatus
   is_two_factor_enabled?: boolean
 }
+
+export interface QuizQuestion {
+  id: string
+  question: string
+  type: 'multiple-choice' | 'text'
+  options?: string[]
+}
+
+export type AiTone = 'amoras' | 'reais duros' | 'impactantes'
+
+export interface SelfCareAction {
+  title: string
+  description: string
+}
+
+export interface SelfCarePlan {
+  tone: AiTone
+  monthlyFocus: SelfCareAction
+  weeklyFocus: SelfCareAction
+  dailyFocus: SelfCareAction
+}

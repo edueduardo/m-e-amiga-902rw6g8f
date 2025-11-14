@@ -1,4 +1,5 @@
 import { ABTestGroup } from './abTesting'
+import { QuizQuestion, SelfCarePlan } from '@/types'
 
 const API_URL = 'https://api.openai.com/v1'
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -212,5 +213,130 @@ export const generateWeeklyMotherSummary = async (
   } catch (error) {
     console.error('Error generating summary:', error)
     return 'Filha, não consegui gerar seu resumo desta semana, mas quero que saiba que acompanhei sua jornada e estou orgulhosa de você. Continue se cuidando.'
+  }
+}
+
+export const generateSelfCareQuiz = async (): Promise<QuizQuestion[]> => {
+  const fallbackQuiz: QuizQuestion[] = [
+    {
+      id: '1',
+      question: 'Como você descreveria sua energia hoje?',
+      type: 'multiple-choice',
+      options: ['Cheia de energia', 'Normal', 'Cansada', 'Exausta'],
+    },
+    {
+      id: '2',
+      question: 'Qual área da sua vida precisa de mais atenção agora?',
+      type: 'text',
+    },
+  ]
+  if (!API_KEY) return fallbackQuiz
+
+  const prompt = `Você é a 'Mãe Amiga', uma IA coach de bem-estar. Crie um quiz rápido de 3 perguntas para entender como uma mulher casada e sobrecarregada está se sentindo. As perguntas devem ser gentis e investigativas. Uma pergunta deve ser de múltipla escolha. Responda APENAS com um objeto JSON contendo uma chave "quiz" que é um array de objetos, cada um com "id", "question", "type" ('multiple-choice' ou 'text'), e "options" (um array de strings, se for multiple-choice).`
+
+  try {
+    const response = await fetch(`${API_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.8,
+        response_format: { type: 'json_object' },
+      }),
+    })
+    const data = await response.json()
+    const content = JSON.parse(data.choices[0]?.message?.content)
+    return content.quiz || fallbackQuiz
+  } catch (error) {
+    console.error('Error generating quiz:', error)
+    return fallbackQuiz
+  }
+}
+
+export const generateSelfCarePlan = async (
+  answers: Record<string, string>,
+): Promise<SelfCarePlan> => {
+  const fallbackPlan: SelfCarePlan = {
+    tone: 'amoras',
+    monthlyFocus: {
+      title: 'Reconexão',
+      description:
+        'Este mês, vamos focar em nos reconectar com quem somos, além dos papéis que desempenhamos.',
+    },
+    weeklyFocus: {
+      title: 'Pequenas Pausas',
+      description:
+        'A cada semana, reserve um tempo sagrado, mesmo que curto, só para você.',
+    },
+    dailyFocus: {
+      title: 'Respiração Consciente',
+      description:
+        'Tire um minuto a cada dia para respirar fundo e se centrar.',
+    },
+  }
+  if (!API_KEY) return fallbackPlan
+
+  const prompt = `Você é a 'Mãe Amiga'. Baseado nas respostas do quiz de uma mulher casada: ${JSON.stringify(
+    answers,
+  )}, crie um plano de autocuidado. O plano deve ter um foco mensal, um semanal e um diário. Escolha um dos seguintes tons para sua resposta: 'amoras' (amoroso e gentil), 'reais duros' (direto e realista, mas com carinho), ou 'impactantes' (inspirador e motivacional). Responda APENAS com um objeto JSON com a estrutura: { "tone": "...", "monthlyFocus": { "title": "...", "description": "..." }, "weeklyFocus": { "title": "...", "description": "..." }, "dailyFocus": { "title": "...", "description": "..." } }.`
+
+  try {
+    const response = await fetch(`${API_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.9,
+        response_format: { type: 'json_object' },
+      }),
+    })
+    const data = await response.json()
+    return JSON.parse(data.choices[0]?.message?.content)
+  } catch (error) {
+    console.error('Error generating self-care plan:', error)
+    return fallbackPlan
+  }
+}
+
+export const refineSelfCarePlan = async (
+  previousPlan: SelfCarePlan,
+  userFeedback: string,
+  answers: Record<string, string>,
+): Promise<SelfCarePlan> => {
+  if (!API_KEY) return previousPlan
+
+  const prompt = `Você é a 'Mãe Amiga'. Eu te dei um plano de autocuidado baseado nas respostas: ${JSON.stringify(
+    answers,
+  )}. O plano foi: ${JSON.stringify(
+    previousPlan,
+  )}. Minha filha não gostou e disse: "${userFeedback}". Agora, refine o plano para alinhar melhor com o que ela precisa. Mantenha a mesma estrutura JSON e o mesmo tom do plano anterior. Responda APENAS com o objeto JSON refinado.`
+
+  try {
+    const response = await fetch(`${API_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.8,
+        response_format: { type: 'json_object' },
+      }),
+    })
+    const data = await response.json()
+    return JSON.parse(data.choices[0]?.message?.content)
+  } catch (error) {
+    console.error('Error refining self-care plan:', error)
+    return previousPlan
   }
 }
